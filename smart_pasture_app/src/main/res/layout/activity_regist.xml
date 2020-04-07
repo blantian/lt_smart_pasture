@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/top_tab"
+    tools:context=".view.regist.RegistActivity">
+    <RelativeLayout
+        android:background="@color/colorBlackblue"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <ProgressBar
+        android:id="@+id/signprogressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="invisible"/>
+    <LinearLayout
+        android:id="@+id/linearLayout0"
+        android:background="@color/top_tab"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/ic_action_back" />
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sign_in_"
+                android:textColor="@color/colorwhite"
+                android:textSize="20dp" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="50dp" />
+    </LinearLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_below="@id/linearLayout0"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <FrameLayout
+            android:id="@+id/framelayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+        <ImageView
+                android:id="@+id/TOPbackground"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:background="@drawable/bg01"/>
+
+
+        <ImageView
+                android:id="@+id/pic1"
+                android:layout_width="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_height="180dp"
+                android:background="@drawable/bg06"/>
+
+    </FrameLayout>
+
+    <LinearLayout
+            android:id="@+id/line1"
+            android:orientation="vertical"
+            android:layout_below="@+id/framelayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp">
+            <ImageView
+                android:id="@+id/user_icon"
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_action_user"/>
+
+            <EditText
+                android:id="@+id/user_name_sign"
+                android:layout_width="match_parent"
+                android:paddingLeft="8dp"
+                android:layout_height="48dp"
+                android:inputType="text"
+                android:lines="1"
+                android:background="@drawable/edittext"
+                android:textSize="18dp"
+                android:textColorHint="@color/colorTextGrey"
+                android:hint="用户名"/>
+        </LinearLayout>
+        <TextView
+            android:id="@+id/sign_show_erro"
+            android:textColor="@color/read"
+            android:layout_marginStart="60dp"
+            android:layout_marginEnd="60dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp">
+            <ImageView
+                android:id="@+id/pass_icon"
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_action_password"/>
+
+            <EditText
+                android:id="@+id/user_pass_sign"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:paddingLeft="8dp"
+                android:layout_height="48dp"
+                android:inputType="textPassword"
+                android:lines="1"
+                android:textSize="18dp"
+                android:background="@drawable/edittext"
+                android:textColorHint="@color/colorTextGrey"
+                android:hint="密码"/>
+            <ToggleButton
+                android:id="@+id/toggle_btton_sign"
+                android:layout_gravity="center_vertical|end"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:padding="10dp"
+                android:background="@drawable/selector_pwd"
+                android:textOff=" "
+                android:textOn="" />
+        </LinearLayout>
+        <TextView
+            android:id="@+id/sign_show_erro_1"
+            android:textColor="@color/read"
+            android:layout_marginStart="60dp"
+            android:layout_marginEnd="60dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp">
+            <ImageView
+                android:id="@+id/sure_pass_icon"
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_action_password"/>
+
+            <EditText
+                android:id="@+id/sure_pass_sign"
+                android:layout_weight="1"
+                android:paddingLeft="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:inputType="textPassword"
+                android:lines="1"
+                android:textSize="18dp"
+                android:background="@drawable/edittext"
+                android:textColorHint="@color/colorTextGrey"
+                android:hint="确认密码"/>
+            <ToggleButton
+                android:id="@+id/toggle_btton_2"
+                android:layout_gravity="center_vertical|end"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:padding="10dp"
+                android:background="@drawable/selector_pwd"
+                android:textOff=" "
+                android:textOn="" />
+        </LinearLayout>
+        <TextView
+            android:id="@+id/sign_show_erro2"
+            android:textColor="@color/read"
+            android:layout_marginStart="60dp"
+            android:layout_marginEnd="60dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp">
+            <ImageView
+                android:id="@+id/phone_icon"
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_action_phone"/>
+
+            <EditText
+                android:id="@+id/user_phone_sign"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:lines="1"
+                android:maxLength="11"
+                android:inputType="phone"
+                android:textSize="18dp"
+                android:paddingLeft="8dp"
+                android:background="@drawable/edittext"
+                android:textColorHint="@color/colorTextGrey"
+                android:hint="手机号"/>
+        </LinearLayout>
+        <TextView
+            android:id="@+id/sgin_show_erro3"
+            android:textColor="@color/read"
+            android:layout_marginStart="60dp"
+            android:layout_marginEnd="60dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center">
+
+            <CheckBox
+                    android:id="@+id/check_box"
+                    android:button="@drawable/selector_checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+        <TextView
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/agree_deal"/>
+
+        </LinearLayout>
+
+        <TextView
+               android:id="@+id/see_treaty"
+               android:layout_marginTop="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/check_file"
+                android:layout_gravity="center"/>
+
+
+    </LinearLayout>
+
+    <FrameLayout
+            android:layout_below="@+id/line1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btt_sign_up"
+            android:layout_width="150dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/selector_button"
+            android:enabled="false"
+            android:layout_marginTop="20dp"
+            android:text="@string/sign_bttn"
+            android:textSize="18sp"/>
+
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/company_support"
+                android:layout_marginTop="100dp"/>
+
+
+       </FrameLayout>
+      </RelativeLayout>
+    </androidx.core.widget.NestedScrollView>
+    </RelativeLayout>
+</RelativeLayout>

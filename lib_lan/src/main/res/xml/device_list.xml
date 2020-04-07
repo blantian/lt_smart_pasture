@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<device_list xmlns:android="http://schemas.android.com/apk/res/android">
+    <device
+        name="DS-TCG227"
+        ip = "10.34.43.160"
+        port = "8000"
+        user = "admin"
+        password = "hik12345" />
+    <device
+        name="camera2"
+        ip = "10.66.78.32"
+        port = "8000"
+        user = "admin"
+        password = "sdk123456" />
+</device_list>

@@ -1,0 +1,22 @@
+<manifest package="com.lantian.lib_docs"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+     >
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <application android:label="@string/app_name">
+        <activity android:name=".breeddoc.dabiaoyonghu.FarmListActivity"/>
+        <activity android:name=".farmdoc.view.home.FarmHomeActivity"/>
+        <activity android:name=".farmdoc.view.havefarm.HaveFarmActivity"/>
+        <activity android:name=".farmdoc.view.farmerdata.FarmerMsgActivity"/>
+        <activity android:name=".breeddoc.NoBreedActivity"/>
+        <activity android:name=".breeddoc.HaveBreedActivity"/>
+        <activity android:name=".breeddoc.dabiaoyonghu.SingleBreedActivity"/>
+        <activity android:name=".breeddoc.NewBreedActivity"/>
+        <activity android:name=".breeddoc.dabiaoyonghu.DabiaoBreedDocActivity"/>
+        <activity android:name=".breeddoc.dabiaoyonghu.EarCodeActivity"/>
+        <activity android:name=".breeddoc.dabiaoyonghu.addEarActivity"/>
+        <activity android:name=".breeddoc.BreedAllActivity"/>
+        <activity android:name=".breeddoc.GetBigPicActivity"/>
+    </application>
+
+</manifest>

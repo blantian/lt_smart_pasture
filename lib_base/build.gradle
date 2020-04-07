@@ -1,0 +1,64 @@
+apply plugin: 'com.android.library'
+apply plugin: 'org.greenrobot.greendao'
+android {
+    compileSdkVersion this.rootProject.android.compileSdkVersion
+    buildToolsVersion this.rootProject.android.buildToolsVersion
+    defaultConfig {
+        minSdkVersion this.rootProject.android.minSdkVersion
+        targetSdkVersion this.rootProject.android.targetSdkVersion
+        versionCode this.rootProject.android.versionCode
+        versionName this.rootProject.android.versionName
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
+
+        greendao {
+            schemaVersion 10
+            daoPackage 'com.lantian.lib_base.database.greendao'
+            targetGenDir 'src/main/java'
+        }
+
+        ndk {
+            abiFilters "armeabi","armeabi-v7a","arm64-v8a"
+        }
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+    }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation this.rootProject.depsLibs.appcompat
+    testImplementation this.rootProject.depsLibs.junit
+    androidTestImplementation this.rootProject.depsLibs.extjunit
+    androidTestImplementation this.rootProject.depsLibs.espressocore
+    api this.rootProject.depsLibs.greendao
+    api this.rootProject.depsLibs.ImagePicker
+    api this.rootProject.depsLibs.glide
+    implementation 'com.github.yuweiguocn:GreenDaoUpgradeHelper:v2.0.0'
+
+    //本地包
+    api files('libs/PlayerSDK_hcnetsdk.jar')
+    api files('libs/jna.jar')
+    api files('libs/HCNetSDK.jar')
+    api files('libs/uhf.jar')
+    api 'com.github.wittyneko:rxbus:0.1.0'
+    api 'com.github.LtLei:RxCache:v1.0.0'
+
+}

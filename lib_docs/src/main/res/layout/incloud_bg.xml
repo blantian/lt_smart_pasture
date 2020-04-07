@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/bottomView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/line1">
+
+    <ImageView
+        android:id="@+id/belowbackground"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:background="@drawable/bg" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center|fill_vertical"
+        android:paddingTop="60dp"
+        android:orientation="horizontal">
+        <TextView
+            android:gravity="center"
+            android:textColor="@color/colorwhite"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:text="@string/company_support"
+            android:textSize="17dp" />
+    </LinearLayout>
+
+
+</FrameLayout>

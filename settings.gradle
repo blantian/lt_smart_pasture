@@ -1,0 +1,2 @@
+include ':smart_pasture_app', ':lib_network', ':lib_commin_ui', ':lib_base', ':lib_image_loader', ':lib_uhf', ':lib_lan', ':lib_docs'
+rootProject.name='lt_smart_pasture'

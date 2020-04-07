@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:id="@+id/title_layout"
+        android:background="@color/colorBlack"
+        android:layout_below="@+id/layout_header"
+        android:layout_width="match_parent"
+        android:layout_height="45dp">
+        <net.lucode.hackware.magicindicator.MagicIndicator
+            android:id="@+id/my_magic_indicator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp" />
+    </RelativeLayout>
+    <com.lantian.lib_commin_ui.viewpager.MyViewPager
+        android:id="@+id/myviewPager"
+        android:layout_width="match_parent"
+        android:layout_height="680dp"
+        android:layout_below="@id/title_layout" />
+</LinearLayout>

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorBlackblue">
+    <LinearLayout
+        android:id="@+id/top_tab"
+        android:background="@color/top_tab"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:gravity="center_vertical"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/ear_btn_back"
+                android:layout_weight="0"
+                android:background="@drawable/ic_action_bbtn_back"
+                android:layout_width="25dp"
+                android:layout_height="25dp"/>
+            <Space
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/find"
+                android:textColor="@color/colorwhite"
+                android:textSize="23dp"
+                android:textStyle="bold" />
+
+            <Space
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_width="25dp"
+                android:layout_height="25dp"/>
+        </LinearLayout>
+    </LinearLayout>
+   <androidx.core.widget.NestedScrollView
+           android:layout_below="@+id/top_tab"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent">
+       <LinearLayout
+               android:id="@+id/line1"
+               android:orientation="vertical"
+               android:layout_width="match_parent"
+               android:layout_height="match_parent">
+           <ImageView
+                   android:layout_width="wrap_content"
+                   android:layout_height="140dp"
+                   android:background="@drawable/bg01"/>
+           <ImageView
+                   android:layout_marginTop="-140dp"
+                   android:layout_width="378dp"
+                   android:layout_height="199dp"
+                   android:background="@drawable/bg06"
+                   android:layout_gravity="center"/>
+
+           <EditText
+                   android:id="@+id/about_as_location"
+                   android:layout_width="match_parent"
+                     android:layout_height="48dp"
+                     android:layout_marginStart="17dp"
+                      android:layout_marginEnd="17dp"
+                     android:layout_marginTop="100dp"
+                     android:drawableLeft="@drawable/ic_action_arrange"
+                     android:paddingLeft="15dp"
+                     android:background="@color/colorBlack"/>
+
+           <EditText
+                   android:id="@+id/about_as_Uname"
+                   android:layout_width="match_parent"
+                     android:layout_height="48dp"
+                    android:layout_marginStart="17dp"
+                    android:layout_marginEnd="17dp"
+                     android:layout_marginTop="6dp"
+                     android:drawableLeft="@drawable/ic_action_arrange"
+                     android:paddingLeft="15dp"
+                     android:background="@color/colorBlack"/>
+           <EditText
+                   android:id="@+id/about_as_phone"
+                   android:layout_width="match_parent"
+                   android:layout_height="48dp"
+                   android:layout_marginStart="17dp"
+                   android:layout_marginEnd="17dp"
+                   android:layout_marginTop="6dp"
+                   android:drawableLeft="@drawable/ic_action_arrange"
+                   android:paddingLeft="15dp"
+                   android:background="@color/colorBlack"/>
+           <LinearLayout
+                   android:orientation="horizontal"
+                   android:layout_marginLeft="17dp"
+                   android:layout_marginTop="10dp"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content">
+           <ImageView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:background="@drawable/ic_action_arrange"/>
+               <TextView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:hint="@string/service"
+                       android:layout_gravity="center_vertical"
+                       android:textColorHint="@color/colorselector"
+                       android:layout_marginLeft="10dp"/>
+           </LinearLayout>
+
+           <TextView
+                   android:layout_marginTop="10dp"
+                   android:layout_width="match_parent"
+                   android:layout_height="500dp"
+                   android:layout_marginStart="17dp"
+                   android:layout_marginEnd="17dp"
+                   android:background="@color/colorBlack"/>
+
+           <ImageView
+                   android:layout_marginTop="50dp"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:background="@drawable/bg"/>
+           <TextView
+                   android:layout_gravity="center"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:hint="@string/company_support"
+                   android:textColorHint="@color/colorwhite"
+               android:layout_marginTop="-130dp"/>
+
+
+       </LinearLayout>
+
+   </androidx.core.widget.NestedScrollView>
+</RelativeLayout>

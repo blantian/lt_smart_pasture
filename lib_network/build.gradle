@@ -1,0 +1,48 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion this.rootProject.android.compileSdkVersion
+    buildToolsVersion this.rootProject.android.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion this.rootProject.android.minSdkVersion
+        targetSdkVersion this.rootProject.android.targetSdkVersion
+        versionCode this.rootProject.android.versionCode
+        versionName this.rootProject.android.versionName
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation this.rootProject.depsLibs.appcompat
+    api this.rootProject.depsLibs.okhttp
+    api this.rootProject.depsLibs.interceptor
+    api this.rootProject.depsLibs.retrofit
+    api this.rootProject.depsLibs.convertergson
+    api this.rootProject.depsLibs.converterscalars
+    api this.rootProject.depsLibs.rxandroid
+    api this.rootProject.depsLibs.jakewharton
+    api this.rootProject.depsLibs.rxlifecycle
+    api this.rootProject.depsLibs.rxlifecyclecomponents
+    api this.rootProject.depsLibs.logginginterceptor
+    implementation this.rootProject.depsLibs.rxjava2
+    implementation this.rootProject.depsLibs.adapterrxjava2
+    api project(path: ':lib_lan')
+
+
+}
