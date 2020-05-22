@@ -73,7 +73,6 @@ public class AreaFragment extends BaseFragmen {
         sInfo = view.findViewById(R.id.out_sum);
         sTitel = view.findViewById(R.id.out_sum);
     }
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -114,6 +113,20 @@ public class AreaFragment extends BaseFragmen {
     private void refreshViews() {
         //日期范围
         mFarmDatas.setText(String.format("%s ~ %s", startTime, endTime));
+        /**
+         * 重新选择日期
+         */
+        RetrofitHelper.getApiService().getPlanSum(MyApp.Userid,"6",startTime,endTime).enqueue(new MyCallBack<countPlantsum>() {
+            @Override
+            public void success(countPlantsum countPlantsum) {
+                flatAreaView(countPlantsum);
+            }
+
+            @Override
+            public void failure(String msg) {
+
+            }
+        });
     }
 
     /**

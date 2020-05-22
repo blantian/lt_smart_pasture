@@ -9,7 +9,8 @@ public class SyncServerData {
     private final int ADD = SyncDataStatus.ADD.ordinal();
     private final int UPDATE = SyncDataStatus.UPDATE.ordinal();
     private final int DELETE = SyncDataStatus.DELETE.ordinal();
-    private final int NONE = SyncDataStatus.NONE.ordinal();
+    private final int NONE = SyncDataStatus.HAVE.ordinal();
+    private final int HAVE = SyncDataStatus.HAVE.ordinal();
 
 
 }

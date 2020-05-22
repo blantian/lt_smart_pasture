@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.lantian.lib_base.entity.module.response.breeds.BreedIndex;
+import com.lantian.lib_commin_ui.base.ActivityManagerUtil;
 import com.lantian.lib_commin_ui.base.BaseActivity;
 import com.lantian.lib_docs.R;
 
@@ -74,11 +75,10 @@ public class BreedAllActivity extends BaseActivity implements View.OnClickListen
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.allbasemsg){
-
-
+            BreedDeTailMsgsActivity.instance(BreedAllActivity.this,BreedDeTailMsgsActivity.class,bundle);
+            ActivityManagerUtil.getAppManager().finishActivity();
         }else if (v.getId() == R.id.alldocmsg){
-
-
+            BreedDeTailMsgsActivity.instance(BreedAllActivity.this,BreedDeTailMsgsActivity.class,null);
         }else if (v.getId() == R.id.breed_btn_back){
             BreedAllActivity.this.finish();
         }

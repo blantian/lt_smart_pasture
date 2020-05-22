@@ -6,7 +6,7 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.lantian.lib_base.entity.module.response.farmer.farmlist.FarmListResponse;
-import com.lantian.lib_base.utils.Utils;
+import com.lantian.lib_base.utils.BaseUtils;
 import com.lantian.lib_docs.R;
 
 import org.jetbrains.annotations.NotNull;
@@ -25,9 +25,9 @@ public class RFarmListAdapter extends BaseQuickAdapter<FarmListResponse, BaseVie
 
     @Override
     protected void convert(@NotNull BaseViewHolder baseViewHolder, FarmListResponse farmListResponse) {
-        baseViewHolder.setText(R.id.farm_list_names,farmListResponse.getName())
+        baseViewHolder.setText(R.id.farm_list_names,farmListResponse.getUsername())
                 .setText(R.id.farm_list_tells,farmListResponse.getPhone());
-                Glide.with(Utils.getContext()).load(farmListResponse.getAvatar()).into((ImageView)baseViewHolder.getView(R.id.farm_List_header_icon));
+                Glide.with(BaseUtils.getContext()).load(farmListResponse.getAvatar()).into((ImageView)baseViewHolder.getView(R.id.farm_List_header_icon));
     }
 
 

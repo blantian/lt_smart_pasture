@@ -2,5 +2,6 @@
 <project version="4">
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/lib_docs/src/main/java/com/lantian/lib_docs/farmdoc/view/farmerdata/CompleteMsgFragment.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/lib_lan/src/main/java/com/lantian/lib_lan/subfield/SubfieldActivity.java" charset="UTF-8" />
   </component>
 </project>

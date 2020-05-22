@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_marginTop="10dp"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:foreground="?android:attr/selectableItemBackground"
+    app:cardCornerRadius="10dp"
+    app:cardBackgroundColor="@color/colorBlack">
     <RelativeLayout
         android:id="@+id/next_page"
-        android:background="@color/colorBlack"
+        android:layout_margin="10dp"
         android:layout_width="match_parent"
-        android:layout_height="120dp">
+        android:layout_height="match_parent">
         <LinearLayout
             android:id="@+id/lien2"
-            android:layout_marginTop="10dp"
             android:layout_marginLeft="20dp"
             android:orientation="horizontal"
             android:layout_width="match_parent"
@@ -34,7 +37,7 @@
         <LinearLayout
             android:id="@+id/lien3"
             android:layout_below="@id/lien2"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:layout_marginLeft="20dp"
             android:orientation="horizontal"
             android:layout_width="match_parent"
@@ -67,7 +70,7 @@
         <LinearLayout
             android:id="@+id/lien4"
             android:layout_below="@id/lien3"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -124,9 +127,6 @@
                 android:textColor="@color/afterSelector"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content" />
-
-
         </LinearLayout>
     </RelativeLayout>
-
-</LinearLayout>
+</androidx.cardview.widget.CardView>

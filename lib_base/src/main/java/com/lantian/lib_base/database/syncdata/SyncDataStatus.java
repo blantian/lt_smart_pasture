@@ -5,6 +5,8 @@ package com.lantian.lib_base.database.syncdata;
  */
 public enum SyncDataStatus {
     NONE,
+
+    HAVE,
     //新增数据
     ADD,
     //更新数据

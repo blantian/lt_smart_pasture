@@ -3,6 +3,7 @@ package com.lantian.lib_base.entity.module.response.regist;
 /**
  * Created by Sherlock·Holmes on 2020-03-20
  */
+
 public class CheckPhoneResponse {
 
     /**
@@ -10,7 +11,6 @@ public class CheckPhoneResponse {
      * message : 手机号已存在!
      * data : null
      */
-
     private int code;
     private String message;
     private Object data;

@@ -3,7 +3,9 @@ package com.lantian.lt_smart_pasture.view.home;
 import android.annotation.SuppressLint;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,26 +21,29 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.lantian.lib_commin_ui.base.BaseActivity;
 import com.lantian.lib_commin_ui.indicator.CHANNEL;
 import com.lantian.lib_commin_ui.indicator.MyMagicIndicator;
 import com.lantian.lib_commin_ui.viewpager.MyViewPager;
 import com.lantian.lib_lan.camera.control.DevManageGuider;
-import com.lantian.lib_lan.camera.control.SDKGuider;
 import com.lantian.lib_lan.camera.model.DBDevice;
+import com.lantian.lib_lan.device.view.DevHomeActivity;
+import com.lantian.lib_network.receiver.NetStateChangeReceiver;
+import com.lantian.lib_network.receiver.interfaces.NetStateChangeObserver;
+import com.lantian.lib_network.utils.EventNetMessage;
+import com.lantian.lib_network.utils.NetworkType;
 import com.lantian.lt_smart_pasture.R;
-import com.lantian.lt_smart_pasture.view.camera.AddDevActivity;
-import com.lantian.lt_smart_pasture.view.camera.LANDevActivity;
-import com.lantian.lt_smart_pasture.view.camera.dev.DevStatus;
 import com.lantian.lt_smart_pasture.view.home.adapter.BottomNavigationAdapter;
 import com.lantian.lt_smart_pasture.view.home.adapter.HomePagerAdapter;
-import com.lantian.lt_smart_pasture.view.home.drawer.DrawLayoutProxy;
 import com.lantian.lt_smart_pasture.view.login.LoginActivity;
 import com.lantian.lt_smart_pasture.view.mine.MineFragment;
 import com.lantian.lt_smart_pasture.view.mypasture.MyPastureFragment;
 import com.lantian.lt_smart_pasture.view.product.HomePageFragment;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +56,7 @@ import butterknife.ButterKnife;
  * Created by Sherlock·Holmes on 2020-02-11
  */
 public class HomeActivity extends BaseActivity implements View.OnClickListener, BottomNavigationView.OnNavigationItemSelectedListener,
-        ViewPager.OnPageChangeListener, ViewPager.OnTouchListener, DevStatus {
+        ViewPager.OnPageChangeListener, ViewPager.OnTouchListener, NetStateChangeObserver {
 
     //指定首页标题
     private static final CHANNEL[] CHANNELS =
@@ -73,8 +78,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     ImageView mMaIvIndex;
     @BindView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
-    @BindView(R.id.dvis)
-    LinearLayout mCamera;
     @BindView(R.id.left_drawer_layout)
     LinearLayout leftDrawerLayout;
     @BindView(R.id.add_camera)
@@ -83,8 +86,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     TextView toggleView;
     @BindView(R.id.title_layout)
     RelativeLayout titleLayout;
-    @BindView(R.id.add_dev)
-    TextView addDev;
+    @BindView(R.id.my_devs)
+    FloatingActionButton devs;
 
     private List<Fragment> fragmentList;
     private HomePagerAdapter mAdapter;
@@ -94,7 +97,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     private Fragment mHomePageFragment;
 
     DevManageGuider.DeviceItem mDeviceInfo = null;
-    private DrawLayoutProxy m_dlDraw;
     private DBDevice m_dbDev;
     private LoginActivity LoginActivity;
     String check;
@@ -108,6 +110,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     protected void init(Bundle savedInstanceState) {
         ButterKnife.bind(this);
+        NetStateChangeReceiver.registerReceiver(this);
         intiView();
     }
 
@@ -118,10 +121,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
         mMyPastureFragment = MyPastureFragment.newInstance();
         mHomePageFragment = HomePageFragment.newInstance();
         m_dbDev = DBDevice.getInstance(this);
-        m_dlDraw = new DrawLayoutProxy(this);
         toggleView.setOnClickListener(this);
-        mCamera.setOnClickListener(this);
-        addDev.setOnClickListener(this);
+        devs.setOnClickListener(this);
 
         if (!fragmentList.contains(mMineFragment)) {
             fragmentList.add(mMineFragment);
@@ -135,7 +136,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 
         //初始化Adapter
         mBottomNavigationAdapter = new BottomNavigationAdapter(getSupportFragmentManager(), fragmentList);
-
         mAdapter = new HomePagerAdapter(getSupportFragmentManager(), CHANNELS);
         mBtnNavigationView.setSelectedItemId(R.id.navigation_home);
         mViewPager.setAdapter(mBottomNavigationAdapter);
@@ -148,8 +148,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
         mMaIvIndex.setOnClickListener(this);
         Resources resources = getResources();
         mBtnNavigationView.setItemTextColor(resources.getColorStateList(R.drawable.selector_bottom_navigation, null));
-        //initMagicIndicator();
-        MyMagicIndicator.initMagicIndicator(this,CHANNELS,mViewPager,mMagicIndicator,20);
+        MyMagicIndicator.initSimpleMagicIndicator(this,CHANNELS,mViewPager,mMagicIndicator,14);
     }
 
     @Override
@@ -166,20 +165,17 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     public void onClick(View v) {
 
         switch (v.getId()) {
-            case R.id.dvis:
-                if(isOnlineOrChooseDev()){
-                    LANDevActivity.instance(this, LANDevActivity.class, null);
-                }
-                break;
-            case R.id.add_dev:
-                AddDevActivity.instance(this,AddDevActivity.class,null);
             case R.id.toggle_view:
                 drawerLayout.openDrawer(Gravity.LEFT);
                 break;
+            case R.id.ma_iv_index:
+                mViewPager.setCurrentItem(1);
+                mBtnNavigationView.getMenu().getItem(1).setChecked(true);
+                break;
             default:
+            case R.id.my_devs:
+                DevHomeActivity.instance(HomeActivity.this,DevHomeActivity.class,null);
         }
-        mViewPager.setCurrentItem(1);
-        mBtnNavigationView.getMenu().getItem(1).setChecked(true);
     }
 
     @Override
@@ -208,7 +204,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
         switch (menuItem.getItemId()) {
             case R.id.navigation_home:
                 mViewPager.setCurrentItem(0);
-
                 break;
             case R.id.ma_iv_index:
                 mViewPager.setCurrentItem(1);
@@ -222,22 +217,48 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
         return true;
     }
 
+
     /**
-     * 设备的判断
+     *取消返回键
+     * @param keyCode
+     * @param event
      * @return
      */
     @Override
-    public boolean isOnlineOrChooseDev() {
-        mDeviceInfo = SDKGuider.sdkGuider.manageGuider.getCurrSelectDev();
-        if(mDeviceInfo == null) {
-            showToast("获取设备失败！");
-            return false;
-        }else {
-            if(mDeviceInfo.m_struDevState.m_iLogState != 1){
-                showToast("请先登录设备！");
-                return false;
-            }
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK
+                && event.getAction() == KeyEvent.ACTION_DOWN) {
+            return true;
         }
-        return true;
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        NetStateChangeReceiver.unRegisterObserver(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        NetStateChangeReceiver.registerObserver(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        NetStateChangeReceiver.unRegisterReceiver(this);
+    }
+
+    @Override
+    public void onNetDisconnected() {
+
+    }
+
+    @Override
+    public void onNetConnected(NetworkType networkType) {
+        Log.e("TYPE",networkType.toString());
+        EventBus.getDefault().postSticky(new EventNetMessage(1,networkType));
     }
 }

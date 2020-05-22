@@ -1,10 +1,15 @@
 package com.lantian.lib_base.entity.module.response.farmer.farmlist;
 
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Id;
+
 import java.io.Serializable;
+import org.greenrobot.greendao.annotation.Generated;
 
 /**
  * Created by Sherlock·Holmes on 2020-04-02
  */
+@Entity
 public class HuzhuList implements Serializable {
 
     /**
@@ -34,7 +39,13 @@ public class HuzhuList implements Serializable {
      * created_at : 0000-00-00 00:00:00
      */
 
+
+
+    private static final long serialVersionUID = 1L;
+    @Id
     private String id;
+    private int status;
+
     private String name;
     private String relations;
     private String tel;
@@ -58,6 +69,45 @@ public class HuzhuList implements Serializable {
     private String user_id;
     private String age;
     private String created_at;
+
+    @Generated(hash = 1419229906)
+    public HuzhuList(String id, int status, String name, String relations,
+            String tel, String labour_type, String idcard_front, String idcard_side,
+            String idcard_front_angle, String idcard_side_angle, String idcard_name,
+            String idcard_gender, String birth_date, String idcard, String sheng,
+            String shi, String xian, String xiangxi, String dizhi, String addtime,
+            String update_time, String shenhe, String user_id, String age,
+            String created_at) {
+        this.id = id;
+        this.status = status;
+        this.name = name;
+        this.relations = relations;
+        this.tel = tel;
+        this.labour_type = labour_type;
+        this.idcard_front = idcard_front;
+        this.idcard_side = idcard_side;
+        this.idcard_front_angle = idcard_front_angle;
+        this.idcard_side_angle = idcard_side_angle;
+        this.idcard_name = idcard_name;
+        this.idcard_gender = idcard_gender;
+        this.birth_date = birth_date;
+        this.idcard = idcard;
+        this.sheng = sheng;
+        this.shi = shi;
+        this.xian = xian;
+        this.xiangxi = xiangxi;
+        this.dizhi = dizhi;
+        this.addtime = addtime;
+        this.update_time = update_time;
+        this.shenhe = shenhe;
+        this.user_id = user_id;
+        this.age = age;
+        this.created_at = created_at;
+    }
+
+    @Generated(hash = 126824492)
+    public HuzhuList() {
+    }
 
     public String getId() {
         return id;
@@ -249,5 +299,13 @@ public class HuzhuList implements Serializable {
 
     public void setCreated_at(String created_at) {
         this.created_at = created_at;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

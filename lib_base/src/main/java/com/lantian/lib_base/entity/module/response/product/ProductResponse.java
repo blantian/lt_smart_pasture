@@ -5,14 +5,14 @@ import com.google.gson.Gson;
 import org.greenrobot.greendao.annotation.Convert;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.annotation.Index;
+import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.converter.PropertyConverter;
 
 /**
  * Created by Sherlock·Holmes on 2020-03-26
  */
 
-@Entity(indexes = {@Index(value = "product_id,user_id",unique = true)})
+@Entity
 public class ProductResponse {
 
 
@@ -34,6 +34,7 @@ public class ProductResponse {
      * deleted_at : null
      */
 
+    @Id
     private String product_id;
     private String user_id;
 

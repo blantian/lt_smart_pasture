@@ -3,6 +3,8 @@
      >
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
     <application android:label="@string/app_name">
         <activity android:name=".breeddoc.dabiaoyonghu.FarmListActivity"/>
         <activity android:name=".farmdoc.view.home.FarmHomeActivity"/>
@@ -17,6 +19,18 @@
         <activity android:name=".breeddoc.dabiaoyonghu.addEarActivity"/>
         <activity android:name=".breeddoc.BreedAllActivity"/>
         <activity android:name=".breeddoc.GetBigPicActivity"/>
+        <activity android:name=".farmdoc.view.farmerdata.chengyuan.FarmFDHomeActivity"/>
+        <activity android:name=".farmdoc.view.farmerdata.person.FDpersenADDActivity"/>
+        <activity android:name=".farmdoc.view.farmerdata.person.FDpersenEditActivity"/>
+        <activity android:name=".farmdoc.view.farmerdata.area.FDAreaAddActivity"/>
+        <activity android:name=".farmdoc.view.farmerdata.area.FDAreaEditActivity"/>
+        <activity android:name=".farmdoc.view.farmerdata.butie.FDButieAddActivity"/>
+        <activity android:name=".farmdoc.view.farmerdata.butie.FDButieEditActivity"/>
+        <activity android:name=".breeddoc.BreedDeTailMsgsActivity"/>
+        <activity android:name=".breeddoc.AddNewBreedActivity"/>
+        <service android:name=".service.SynDataService"/>
+        <service android:name=".service.UploadDataService"/>
+        <receiver android:name=".breeddoc.dabiaoyonghu.EarCodeActivity" />
     </application>
 
 </manifest>

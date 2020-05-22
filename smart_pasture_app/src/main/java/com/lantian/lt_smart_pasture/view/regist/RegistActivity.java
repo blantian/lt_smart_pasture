@@ -24,11 +24,8 @@ import com.lantian.lib_base.entity.module.response.regist.RegistResponse;
 import com.lantian.lib_commin_ui.base.BaseActivity;
 import com.lantian.lib_commin_ui.utils.CheckPhoneNum;
 import com.lantian.lib_commin_ui.utils.SubmitControler;
-import com.lantian.lib_network.common.BasicResponse;
-import com.lantian.lib_network.common.ErroCode;
-import com.lantian.lib_network.common.ResponseObserver;
+import com.lantian.lib_network.retrofit2.MyCallBack;
 import com.lantian.lib_network.retrofit2.RetrofitHelper;
-import com.lantian.lib_network.utils.RxUtil;
 import com.lantian.lt_smart_pasture.R;
 
 import butterknife.BindView;
@@ -175,29 +172,27 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
         }
     }
     /**
-     * 用户表
+     * 用户注册
      */
     private void regist() {
         phone = userPhoneSign.getText().toString();
-        username = userNameSign.getText().toString();
-        userpass = userPassSign.getText().toString();
-        RetrofitHelper.getApiService().singn(username,userpass,phone)
-                .compose(RxUtil.rxSchedulerHelper(this,true))
-                .subscribe(new ResponseObserver<BasicResponse<RegistResponse>>() {
-                    @Override
-                    public void onSuccess(BasicResponse<RegistResponse> response) {
-                        if (response.getCode() == ErroCode.SUCCESS){
-                            showToast(response.getMessage());
-                            Intent data =new Intent();
-                            data.putExtra("name", username);
-                            data.putExtra("pwd", userpass);
-                            setResult(Activity.RESULT_OK, data);
-                            finish();
-                        }else {
-                            showToast(response.getMessage());
-                        }
-                    }
-                });
+        username = userNameSign.getText().toString().trim();
+        userpass = userPassSign.getText().toString().trim();
+        RetrofitHelper.getApiService().singn(username,userpass,phone).enqueue(new MyCallBack<RegistResponse>() {
+            @Override
+            public void success(RegistResponse registResponse) {
+                Intent data =new Intent();
+                data.putExtra("name", username);
+                data.putExtra("pwd", userpass);
+                setResult(Activity.RESULT_OK, data);
+                finish();
+            }
+
+            @Override
+            public void failure(String msg) {
+                showToast(msg);
+            }
+        });
 
         }
     @Override

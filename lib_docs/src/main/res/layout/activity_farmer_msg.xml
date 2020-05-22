@@ -213,11 +213,11 @@
                     android:textSize="16dp" />
             </LinearLayout>
 
-            <RelativeLayout
+            <LinearLayout
                 android:id="@+id/card"
-                android:layout_width="wrap_content"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/liner3"
                 android:layout_gravity="center"
                 android:layout_marginStart="35dp"
                 android:layout_marginTop="20dp"
@@ -225,41 +225,58 @@
 
                 <ImageView
                     android:id="@+id/msg_idcard1"
-                    android:layout_width="160dp"
+                    android:scaleType="fitXY"
+                    android:layout_width="130dp"
                     android:layout_height="100dp"
-                    android:background="@drawable/uploding" />
-
+                    android:background="@drawable/head_bg"/>
+                <Space
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
                 <ImageView
                     android:id="@+id/msg_idcard2"
-                    android:layout_width="160dp"
+                    android:scaleType="fitXY"
+                    android:layout_width="130dp"
                     android:layout_height="100dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_toRightOf="@+id/msg_idcard1"
-                    android:background="@drawable/uploding" />
+                    android:background="@drawable/head_bg"/>
+            </LinearLayout>
 
+            <LinearLayout
+                android:gravity="center_horizontal"
+                android:layout_marginStart="35dp"
+                android:layout_marginEnd="35dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <Space
+                    android:layout_weight="1.5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
                 <TextView
                     android:id="@+id/idtext"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/msg_idcard1"
-                    android:layout_marginLeft="30dp"
                     android:layout_marginTop="10dp"
                     android:hint="@string/idcard1"
                     android:textColorHint="@color/coloridtext"
                     android:textSize="16dp" />
+                <Space
+                     android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
 
                 <TextView
                     android:id="@+id/text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/msg_idcard2"
-                    android:layout_marginLeft="110dp"
                     android:layout_marginTop="10dp"
-                    android:layout_toRightOf="@+id/idtext"
                     android:hint="@string/idcard2"
                     android:textColorHint="@color/coloridtext"
                     android:textSize="16dp" />
-            </RelativeLayout>
+                <Space
+                    android:layout_weight="1.5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -357,12 +374,11 @@
                         android:layout_height="150dp"
                         android:layout_weight="1"
                         android:background="@null"
+                        android:gravity="center"
                         android:ems="10"
                         android:inputType="textLongMessage" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-
-
 </LinearLayout>

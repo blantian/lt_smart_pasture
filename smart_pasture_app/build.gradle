@@ -12,8 +12,13 @@ android {
         versionCode this.rootProject.android.versionCode
         versionName this.rootProject.android.versionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        ndk {
+            abiFilters "armeabi","armeabi-v7a"
+        }
+
     }
-    buildTypes {
+
+        buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -38,6 +43,7 @@ dependencies {
     implementation this.rootProject.depsLibs.eventbus
     implementation project(path: ':lib_network')
     implementation project(path: ':lib_image_loader')
+    implementation project(path: ':lib_lan')
     implementation project(path: ':lib_docs')
 
 

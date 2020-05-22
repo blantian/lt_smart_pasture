@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.lantian.lib_base.MyApp;
+import com.lantian.lib_base.file.sharedpreferences.SharedPreferencesUtils;
 import com.lantian.lib_base.entity.PersonalInfo;
 import com.lantian.lib_base.entity.module.response.userinfo.UserInfo;
 import com.lantian.lib_commin_ui.base.BaseActivity;
@@ -33,10 +34,11 @@ public class personalActivity extends BaseActivity implements View.OnClickListen
     private TextView mShowpersonaladress;
     private Button mPersonaledite;
     private PersonalInfo personalInfo;
-
+    private SharedPreferencesUtils sharedPreferencesUtils;
     private String shengData;
     private String shiData;
     private String xianData;
+    private static final String DABIAO="5";
 
 
     @Override
@@ -56,6 +58,7 @@ public class personalActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void initView() {
+        sharedPreferencesUtils = new SharedPreferencesUtils(this);
         mEarBtnBack = (ImageView) findViewById(R.id.ear_btn_back);
         mUserhead = (ImageView) findViewById(R.id.userhead);
         mPersonalHead = (ImageView) findViewById(R.id.personal_head);
@@ -83,17 +86,22 @@ public class personalActivity extends BaseActivity implements View.OnClickListen
     }
 
     public void initData(){
-        RetrofitHelper.getApiService().getUserInfo(MyApp.Userid).enqueue(new MyCallBack<UserInfo>() {
-            @Override
-            public void success(UserInfo userInfo) {
-                initTextView(userInfo);
-            }
+        if (sharedPreferencesUtils.getParam("isAdmin","").equals(DABIAO)){
+            showToast("打标用户个人信息暂时不支持看");
+        }else {
+            RetrofitHelper.getApiService().getUserInfo(MyApp.Userid).enqueue(new MyCallBack<UserInfo>() {
+                @Override
+                public void success(UserInfo userInfo) {
+                    initTextView(userInfo);
+                }
 
-            @Override
-            public void failure(String msg) {
+                @Override
+                public void failure(String msg) {
 
-            }
-        });
+                }
+            });
+        }
+
     }
 
     private void initTextView(UserInfo userInfo) {

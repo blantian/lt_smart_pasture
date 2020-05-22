@@ -10,7 +10,7 @@ public class CheckUser {
      * message : 获取成功!
      * data : 2
      */
-
+    private String userid;
     private int code;
     private String message;
     private int data;
@@ -37,5 +37,13 @@ public class CheckUser {
 
     public void setData(int data) {
         this.data = data;
+    }
+
+    public String getUserid() {
+        return userid;
+    }
+
+    public void setUserid(String userid) {
+        this.userid = userid;
     }
 }

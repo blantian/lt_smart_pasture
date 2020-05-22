@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+            android:id="@+id/navigation_dev"
+            android:icon="@drawable/selector_dev"
+            android:title="@string/title_dev"/>
+    <item
+        android:id="@+id/navigation_add"
+        android:icon="@null"
+        android:title=""/>
+    <item
+            android:id="@+id/navigation_mine"
+            android:icon="@drawable/selector_mine"
+            android:title="@string/title_mine"/>
+</menu>

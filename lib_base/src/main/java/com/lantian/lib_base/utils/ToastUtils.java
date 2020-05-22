@@ -9,7 +9,7 @@ import android.widget.Toast;
  */
 public class ToastUtils {
 
-    private static Context context = Utils.getContext();
+    private static Context context = BaseUtils.getContext();
     private static Toast toast;
 
     public static void show(int resId) {

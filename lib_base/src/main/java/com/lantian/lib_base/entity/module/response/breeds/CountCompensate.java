@@ -1,8 +1,15 @@
 package com.lantian.lib_base.entity.module.response.breeds;
 
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.Index;
+import org.greenrobot.greendao.annotation.Generated;
+
 /**
  * Created by Sherlock·Holmes on 2020-04-02
  */
+
+@Entity(indexes = {@Index(value = "id DESC,status DESC,user_id DESC",unique = true)})
 public class CountCompensate {
 
     /**
@@ -15,13 +22,33 @@ public class CountCompensate {
      * shenhe : null
      */
 
+
+    private int status;
     private String id;
+    @Id
     private String user_id;
     private String hukou_id;
     private String title;
     private String price;
     private String addtime;
     private String shenhe;
+
+    @Generated(hash = 1190657361)
+    public CountCompensate(int status, String id, String user_id, String hukou_id,
+            String title, String price, String addtime, String shenhe) {
+        this.status = status;
+        this.id = id;
+        this.user_id = user_id;
+        this.hukou_id = hukou_id;
+        this.title = title;
+        this.price = price;
+        this.addtime = addtime;
+        this.shenhe = shenhe;
+    }
+
+    @Generated(hash = 99236961)
+    public CountCompensate() {
+    }
 
     public String getId() {
         return id;
@@ -77,5 +104,13 @@ public class CountCompensate {
 
     public void setShenhe(String shenhe) {
         this.shenhe = shenhe;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

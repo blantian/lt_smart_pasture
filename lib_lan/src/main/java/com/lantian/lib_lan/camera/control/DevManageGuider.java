@@ -38,6 +38,7 @@ public class DevManageGuider implements Serializable {
      * 添加设备
      */
     public class DevNetInfo implements Serializable {
+
         public String m_szIp;
         public String m_szPort;
         public String m_szUserName;
@@ -46,7 +47,7 @@ public class DevManageGuider implements Serializable {
         public DevNetInfo(){}
 
         /**
-         * 初始化设备信息
+         * 初始化设备网络信息
          * @param szIp
          * @param szPort
          * @param szUserName
@@ -83,7 +84,6 @@ public class DevManageGuider implements Serializable {
         public boolean checkPort() {
             return PATTERN.matcher(m_szPort).matches();
         }
-
         public boolean checkNetInfo(){
             return checkIp()&&checkPort()&&!m_szUserName.isEmpty()&&!m_szPassword.isEmpty();
         }
@@ -91,7 +91,7 @@ public class DevManageGuider implements Serializable {
 
 
     /**
-     * @brief 设备信息对象
+     * @brief 设备所有信息对象
      */
     public class DeviceItem implements Serializable {
 
@@ -101,7 +101,9 @@ public class DevManageGuider implements Serializable {
         public byte m_byLoginFlag = -1; // 设备登录方式，0-jni, 1-jna
         public DeviceState m_struDevState = new DeviceState();
         public DevNetInfo m_struNetInfo;
+        //V40登陆返回信息结构体
         public HCNetSDKByJNA.NET_DVR_DEVICEINFO_V40 m_struDeviceInfoV40_jna;
+        //V30登陆返回信息结构体
         public NET_DVR_DEVICEINFO_V30 m_struDeviceInfoV30_jni;
 
         public DeviceItem() {
@@ -145,6 +147,8 @@ public class DevManageGuider implements Serializable {
     public void setCurrSelectDevIndex(int iCurrSelectDevIndex){
         mICurrSelectDevIndex = iCurrSelectDevIndex;
     }
+
+
 
     /**
      * @fn getCurrSelectDevIndex

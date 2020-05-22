@@ -1,8 +1,13 @@
 package com.lantian.lib_base.entity.module.response.userinfo;
 
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.Generated;
+
 /**
  * Created by Sherlock·Holmes on 2020-03-20
  */
+@Entity
 public class UserInfo {
 
     /**
@@ -56,47 +61,49 @@ public class UserInfo {
      * xiandata : 巴林右旗
      */
 
+    @Id
     private String user_id;
+    private String state;
     private String username;
     private String password;
     private String phone;
     private String email;
-    private Object nickname;
+    private String nickname;
     private String sex;
     private String address;
     private String id_card;
     private String age;
     private String avatar;
-    private Object open_id;
-    private Object user_api_key;
-    private Object company_api_key;
-    private Object fial_time;
+    private String open_id;
+    private String user_api_key;
+    private String company_api_key;
+    private String fial_time;
     private String is_admin;
-    private Object register_code;
-    private Object flag_code;
-    private Object last_code;
-    private Object smx_username;
-    private Object smx_password;
-    private Object iot_username;
+    private String register_code;
+    private String flag_code;
+    private String last_code;
+    private String smx_username;
+    private String smx_password;
+    private String iot_username;
     private String iot_password;
     private String appkey;
     private String appsecret;
-    private Object login_ip;
+    private String login_ip;
     private String created_at;
-    private Object updated_at;
-    private Object deleted_at;
+    private String updated_at;
+    private String deleted_at;
     private String xian;
     private String shi;
     private String sheng;
-    private Object address_id;
+    private String address_id;
     private String smx_id;
     private String smx_type;
-    private Object smx_ticket;
+    private String smx_ticket;
     private String usertype_id;
-    private Object lng;
-    private Object lat;
+    private String lng;
+    private String lat;
     private String updated_time;
-    private Object staff_id;
+    private String staff_id;
     private String name;
     private String addtime;
     private String status;
@@ -104,6 +111,75 @@ public class UserInfo {
     private String shengdata;
     private String shidata;
     private String xiandata;
+
+    @Generated(hash = 1932014899)
+    public UserInfo(String user_id, String state, String username, String password,
+            String phone, String email, String nickname, String sex, String address,
+            String id_card, String age, String avatar, String open_id,
+            String user_api_key, String company_api_key, String fial_time,
+            String is_admin, String register_code, String flag_code,
+            String last_code, String smx_username, String smx_password,
+            String iot_username, String iot_password, String appkey,
+            String appsecret, String login_ip, String created_at, String updated_at,
+            String deleted_at, String xian, String shi, String sheng,
+            String address_id, String smx_id, String smx_type, String smx_ticket,
+            String usertype_id, String lng, String lat, String updated_time,
+            String staff_id, String name, String addtime, String status,
+            String syte_id, String shengdata, String shidata, String xiandata) {
+        this.user_id = user_id;
+        this.state = state;
+        this.username = username;
+        this.password = password;
+        this.phone = phone;
+        this.email = email;
+        this.nickname = nickname;
+        this.sex = sex;
+        this.address = address;
+        this.id_card = id_card;
+        this.age = age;
+        this.avatar = avatar;
+        this.open_id = open_id;
+        this.user_api_key = user_api_key;
+        this.company_api_key = company_api_key;
+        this.fial_time = fial_time;
+        this.is_admin = is_admin;
+        this.register_code = register_code;
+        this.flag_code = flag_code;
+        this.last_code = last_code;
+        this.smx_username = smx_username;
+        this.smx_password = smx_password;
+        this.iot_username = iot_username;
+        this.iot_password = iot_password;
+        this.appkey = appkey;
+        this.appsecret = appsecret;
+        this.login_ip = login_ip;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
+        this.deleted_at = deleted_at;
+        this.xian = xian;
+        this.shi = shi;
+        this.sheng = sheng;
+        this.address_id = address_id;
+        this.smx_id = smx_id;
+        this.smx_type = smx_type;
+        this.smx_ticket = smx_ticket;
+        this.usertype_id = usertype_id;
+        this.lng = lng;
+        this.lat = lat;
+        this.updated_time = updated_time;
+        this.staff_id = staff_id;
+        this.name = name;
+        this.addtime = addtime;
+        this.status = status;
+        this.syte_id = syte_id;
+        this.shengdata = shengdata;
+        this.shidata = shidata;
+        this.xiandata = xiandata;
+    }
+
+    @Generated(hash = 1279772520)
+    public UserInfo() {
+    }
 
     public String getUser_id() {
         return user_id;
@@ -145,11 +221,11 @@ public class UserInfo {
         this.email = email;
     }
 
-    public Object getNickname() {
+    public String getNickname() {
         return nickname;
     }
 
-    public void setNickname(Object nickname) {
+    public void setNickname(String nickname) {
         this.nickname = nickname;
     }
 
@@ -193,35 +269,35 @@ public class UserInfo {
         this.avatar = avatar;
     }
 
-    public Object getOpen_id() {
+    public String getOpen_id() {
         return open_id;
     }
 
-    public void setOpen_id(Object open_id) {
+    public void setOpen_id(String open_id) {
         this.open_id = open_id;
     }
 
-    public Object getUser_api_key() {
+    public String getUser_api_key() {
         return user_api_key;
     }
 
-    public void setUser_api_key(Object user_api_key) {
+    public void setUser_api_key(String user_api_key) {
         this.user_api_key = user_api_key;
     }
 
-    public Object getCompany_api_key() {
+    public String getCompany_api_key() {
         return company_api_key;
     }
 
-    public void setCompany_api_key(Object company_api_key) {
+    public void setCompany_api_key(String company_api_key) {
         this.company_api_key = company_api_key;
     }
 
-    public Object getFial_time() {
+    public String getFial_time() {
         return fial_time;
     }
 
-    public void setFial_time(Object fial_time) {
+    public void setFial_time(String fial_time) {
         this.fial_time = fial_time;
     }
 
@@ -233,51 +309,51 @@ public class UserInfo {
         this.is_admin = is_admin;
     }
 
-    public Object getRegister_code() {
+    public String getRegister_code() {
         return register_code;
     }
 
-    public void setRegister_code(Object register_code) {
+    public void setRegister_code(String register_code) {
         this.register_code = register_code;
     }
 
-    public Object getFlag_code() {
+    public String getFlag_code() {
         return flag_code;
     }
 
-    public void setFlag_code(Object flag_code) {
+    public void setFlag_code(String flag_code) {
         this.flag_code = flag_code;
     }
 
-    public Object getLast_code() {
+    public String getLast_code() {
         return last_code;
     }
 
-    public void setLast_code(Object last_code) {
+    public void setLast_code(String last_code) {
         this.last_code = last_code;
     }
 
-    public Object getSmx_username() {
+    public String getSmx_username() {
         return smx_username;
     }
 
-    public void setSmx_username(Object smx_username) {
+    public void setSmx_username(String smx_username) {
         this.smx_username = smx_username;
     }
 
-    public Object getSmx_password() {
+    public String getSmx_password() {
         return smx_password;
     }
 
-    public void setSmx_password(Object smx_password) {
+    public void setSmx_password(String smx_password) {
         this.smx_password = smx_password;
     }
 
-    public Object getIot_username() {
+    public String getIot_username() {
         return iot_username;
     }
 
-    public void setIot_username(Object iot_username) {
+    public void setIot_username(String iot_username) {
         this.iot_username = iot_username;
     }
 
@@ -305,11 +381,11 @@ public class UserInfo {
         this.appsecret = appsecret;
     }
 
-    public Object getLogin_ip() {
+    public String getLogin_ip() {
         return login_ip;
     }
 
-    public void setLogin_ip(Object login_ip) {
+    public void setLogin_ip(String login_ip) {
         this.login_ip = login_ip;
     }
 
@@ -321,19 +397,19 @@ public class UserInfo {
         this.created_at = created_at;
     }
 
-    public Object getUpdated_at() {
+    public String getUpdated_at() {
         return updated_at;
     }
 
-    public void setUpdated_at(Object updated_at) {
+    public void setUpdated_at(String updated_at) {
         this.updated_at = updated_at;
     }
 
-    public Object getDeleted_at() {
+    public String getDeleted_at() {
         return deleted_at;
     }
 
-    public void setDeleted_at(Object deleted_at) {
+    public void setDeleted_at(String deleted_at) {
         this.deleted_at = deleted_at;
     }
 
@@ -361,11 +437,11 @@ public class UserInfo {
         this.sheng = sheng;
     }
 
-    public Object getAddress_id() {
+    public String getAddress_id() {
         return address_id;
     }
 
-    public void setAddress_id(Object address_id) {
+    public void setAddress_id(String address_id) {
         this.address_id = address_id;
     }
 
@@ -385,11 +461,11 @@ public class UserInfo {
         this.smx_type = smx_type;
     }
 
-    public Object getSmx_ticket() {
+    public String getSmx_ticket() {
         return smx_ticket;
     }
 
-    public void setSmx_ticket(Object smx_ticket) {
+    public void setSmx_ticket(String smx_ticket) {
         this.smx_ticket = smx_ticket;
     }
 
@@ -401,19 +477,19 @@ public class UserInfo {
         this.usertype_id = usertype_id;
     }
 
-    public Object getLng() {
+    public String getLng() {
         return lng;
     }
 
-    public void setLng(Object lng) {
+    public void setLng(String lng) {
         this.lng = lng;
     }
 
-    public Object getLat() {
+    public String getLat() {
         return lat;
     }
 
-    public void setLat(Object lat) {
+    public void setLat(String lat) {
         this.lat = lat;
     }
 
@@ -425,11 +501,11 @@ public class UserInfo {
         this.updated_time = updated_time;
     }
 
-    public Object getStaff_id() {
+    public String getStaff_id() {
         return staff_id;
     }
 
-    public void setStaff_id(Object staff_id) {
+    public void setStaff_id(String staff_id) {
         this.staff_id = staff_id;
     }
 
@@ -487,5 +563,13 @@ public class UserInfo {
 
     public void setXiandata(String xiandata) {
         this.xiandata = xiandata;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 }

@@ -1,4 +1,13 @@
 <resources>
     <string name="app_name">lib_commin_ui</string>
     <string name="button_sure">确定</string>
+    <string name="dev_ip">IP     ：</string>
+    <string name="input_dev_ip">请输入IP地址</string>
+    <string name="dev_port">端口：</string>
+    <string name="user_name">用户名</string>
+    <string name="user_pass">密码</string>
+    <string name="add">添加</string>
+    <string name="canxel">取消</string>
+    <string name="input_dev_name">请输入设备名称</string>
+    <string name="dev_name">名称：</string>
 </resources>

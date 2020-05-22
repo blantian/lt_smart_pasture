@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">lt_smart_pasture</string>
+    <string name="app_name">智慧牧场基础版</string>
     <string name="login_in">用户登录</string>
     <string name="input_name">用户名/电话号码</string>
     <string name="input_password">密码</string>
@@ -42,6 +42,7 @@
     <string name="find">发现</string>
     <string name="my_msg">个人信息</string>
     <string name="about_us">关于我们</string>
-    <string name="quit">推出</string>
+    <string name="quit">退出</string>
     <string name="service">服务内容</string>
+    <string name="inDEV">点进设备</string>
 </resources>

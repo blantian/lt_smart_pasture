@@ -1,33 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
-    android:background="@color/colorBlack"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="80dp">
+    android:layout_height="@dimen/dp_40"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:foreground="?android:attr/selectableItemBackground"
+    app:cardCornerRadius="10dp"
+    android:layout_marginTop="@dimen/dp_10"
+    app:cardBackgroundColor="@color/colorBlack">
     <LinearLayout
+        android:id="@+id/action_clickable"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <TextView
             android:id="@+id/eraTag"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textSize="@dimen/sp_16"
             android:textColor="@color/colorwhite"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <Space
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <CheckBox
-            android:id="@+id/checkEarCode"
-            android:button="@null"
-            android:background="@drawable/selector_checkbox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="match_parent"/>
     </LinearLayout>
-</LinearLayout>
+</androidx.cardview.widget.CardView>

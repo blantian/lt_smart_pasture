@@ -25,13 +25,6 @@
             android:layout_centerVertical="true"
             android:background="@drawable/ic_action_sideslip" />
 
-        <TextView
-            android:id="@+id/add_dev"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:background="@drawable/ic_action_add_dev" />
 
         <net.lucode.hackware.magicindicator.MagicIndicator
             android:id="@+id/magic_indicator"
@@ -41,7 +34,6 @@
             android:layout_centerVertical="true"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
-            android:layout_toStartOf="@id/add_dev"
             android:layout_toEndOf="@id/toggle_view" />
 
     </RelativeLayout>
@@ -54,13 +46,15 @@
         android:layout_below="@id/title_layout"
         android:layout_above="@id/btn_navigation_view"
         android:layout_marginBottom="0dp"/>
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/btn_navigation_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/tabcolor"
         android:layout_alignParentBottom="true"
-        app:menu="@menu/bottom_nav_menu"/>
+        android:background="@color/tabcolor"
+        app:menu="@menu/bottom_nav_menu" />
+
     <LinearLayout
         android:layout_width="120dp"
         android:layout_height="60dp"
@@ -82,6 +76,21 @@
         android:layout_weight="1"
         android:scaleType="centerInside"
         android:background="@mipmap/tab_myfarm"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/my_devs"
+            app:borderWidth="0dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_action_devs"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="100dp"
+            app:backgroundTint="#31bfcf"
+            app:rippleColor="#e7d161"
+            app:elevation="5dp"
+            app:fabSize="normal"/>
 </RelativeLayout>
     <!--侧滑-->
     <LinearLayout

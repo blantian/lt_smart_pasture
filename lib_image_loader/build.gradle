@@ -34,6 +34,6 @@ dependencies {
     androidTestImplementation this.rootProject.depsLibs.espressocore
     implementation this.rootProject.depsLibs.rxjava2
     implementation this.rootProject.depsLibs.rxandroid
-    api project(path: ':lib_base')
+    implementation project(path: ':lib_base')
 
 }

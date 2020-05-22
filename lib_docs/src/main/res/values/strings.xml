@@ -37,4 +37,8 @@
     <string name="yangzhishujutongji">养殖数据统计</string>
     <string name="eracode">耳标：</string>
     <string name="bigpic">牲畜图片</string>
+    <string name="reSerch">重选</string>
+    <string name="items_name">成员信息</string>
+    <string name="caoyuan">草原面积</string>
+    <string name="butie">牧户补贴</string>
 </resources>

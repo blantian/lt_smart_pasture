@@ -2,6 +2,7 @@ package com.lantian.lib_docs.farmdoc.view.havefarm;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -16,27 +17,43 @@ import androidx.viewpager.widget.ViewPager;
 import com.lantian.lib_base.MyApp;
 import com.lantian.lib_base.database.greendao.FarmMsgResponseDao;
 import com.lantian.lib_base.database.greendao.FarmSumDataDao;
+import com.lantian.lib_base.database.greendao.PersonListDao;
+import com.lantian.lib_base.file.sharedpreferences.SharedPreferencesUtils;
+import com.lantian.lib_base.database.syncdata.SyncDataStatus;
 import com.lantian.lib_base.entity.module.response.farmer.farmdatas.FarmSumData;
+import com.lantian.lib_base.entity.module.response.farmer.farmlist.PersonList;
+import com.lantian.lib_base.entity.module.response.farmer.farmmsg.FarmMsgResponse;
+import com.lantian.lib_base.utils.BaseUtils;
+import com.lantian.lib_base.utils.EventMessage;
 import com.lantian.lib_commin_ui.base.BaseActivity;
+import com.lantian.lib_commin_ui.dialog.AlertDialogUtil;
 import com.lantian.lib_commin_ui.indicator.CHANNEL;
 import com.lantian.lib_commin_ui.indicator.MyMagicIndicator;
 import com.lantian.lib_commin_ui.viewpager.MyViewPager;
 import com.lantian.lib_docs.R;
 import com.lantian.lib_docs.farmdoc.adapter.HPagerAdapter;
 import com.lantian.lib_docs.farmdoc.view.farmerdata.FarmerMsgActivity;
+import com.lantian.lib_docs.farmdoc.view.farmerdata.chengyuan.FarmFDHomeActivity;
 import com.lantian.lib_docs.farmdoc.view.havefarm.fragments.AreaFragment;
 import com.lantian.lib_docs.farmdoc.view.havefarm.fragments.InOutFragment;
 import com.lantian.lib_docs.farmdoc.view.havefarm.fragments.SubsidyFragment;
+import com.lantian.lib_docs.service.SynDataService;
 import com.lantian.lib_network.networkstatus.NetWorkStatus;
 import com.lantian.lib_network.retrofit2.MyCallBack;
 import com.lantian.lib_network.retrofit2.RetrofitHelper;
+import com.lantian.lib_network.utils.NetworkUtils;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Sherlock·Holmes on 2020-03-27
@@ -45,15 +62,15 @@ public class HaveFarmActivity extends BaseActivity implements View.OnClickListen
 
 
     @SuppressLint({"SimpleDateFormat"})
-    private final SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+    private final SimpleDateFormat dateForNow = new SimpleDateFormat("yyyy-MM-dd");
     @SuppressLint({"SimpleDateFormat"})
-    private final SimpleDateFormat dateFormonth = new SimpleDateFormat("yyyy-MM-31");
+    private final SimpleDateFormat lastDayForMonth = new SimpleDateFormat("yyyy-MM-31");
     @SuppressLint({"SimpleDateFormat"})
-    private final SimpleDateFormat firstDayFormatter = new SimpleDateFormat("yyyy-MM-01");
+    private final SimpleDateFormat firstDayForMonth = new SimpleDateFormat("yyyy-MM-01");
     @SuppressLint({"SimpleDateFormat"})
-    private final SimpleDateFormat dayFormatter = new SimpleDateFormat("yyyy-01-01");
+    private final SimpleDateFormat firstDayForYear = new SimpleDateFormat("yyyy-01-01");
     @SuppressLint({"SimpleDateFormat"})
-    private final SimpleDateFormat dayForyers = new SimpleDateFormat("yyyy-12-31");
+    private final SimpleDateFormat lastDayForYears = new SimpleDateFormat("yyyy-12-31");
 
     private final Date date = new Date();
 
@@ -66,6 +83,7 @@ public class HaveFarmActivity extends BaseActivity implements View.OnClickListen
             };
 
     private ImageView back;
+    private TextView syndata;
     private ImageView mHeaderIcon;
     private TextView mUserName;
     private TextView mMPopulation;
@@ -85,6 +103,9 @@ public class HaveFarmActivity extends BaseActivity implements View.OnClickListen
     private MagicIndicator mInOutMagicIndicator,mAreaMagicIndicator,mSubsidyMagicIndicator;
     private MyViewPager mInOutViewPager,mAreaViewPager,mSubsidyViewPager;
     private HPagerAdapter hPagerAdapter;
+    private SharedPreferencesUtils sharedPreferencesUtils;
+    private PersonListDao personListDao;
+    private List<PersonList> personLists;
 
 
     @Override
@@ -98,12 +119,63 @@ public class HaveFarmActivity extends BaseActivity implements View.OnClickListen
         NetWorkStatus();
     }
 
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.btn_compensate) {
+            jumpTo(3);
+        } else if (v.getId() == R.id.btn_area) {
+            jumpTo(2);
+        } else if (v.getId() == R.id.btn_total) {
+            jumpTo(1);
+        } else if (v.getId() == R.id.btn_member) {
+            jumpTo(0);
+        } else if (v.getId() == R.id.btn_save) {
 
+        }else if (v.getId() == R.id.farmer_msg){
+            FarmerMsgActivity.instance(HaveFarmActivity.this,FarmerMsgActivity.class,null);
+        }else if (v.getId() == R.id.have_farm_bttn){
+            HaveFarmActivity.this.finish();
+        }else if (v.getId() ==R.id.synfarmdata){
+            uploud();
+        }
+    }
+
+    public void uploud(){
+        String[] names = new String[]{"更新数据","取消"};
+        AlertDialogUtil.TwoChoiceDialog(HaveFarmActivity.this, "友情提示", "离线有数据更新：" + personLists.size() + "条数据", names, new AlertDialogUtil.TwoChoiceHandle() {
+            @Override
+            public void onPositiveButtonHandle() {
+                if (NetworkUtils.isConnected()){
+                    if (personLists.size() != 0){
+                        Intent intent = new Intent(HaveFarmActivity.this, SynDataService.class);
+                        intent.setAction(SynDataService.SYNFARMDATA);
+                        intent.putExtra("userid",MyApp.Userid);
+                        startService(intent);
+                    }else {
+                        AlertDialogUtil.warningDialog(HaveFarmActivity.this,"提示","您暂时没有更新的数据哦！");
+                    }
+                }else {
+                    AlertDialogUtil.warningDialog(HaveFarmActivity.this,"提示","您需要连接网络才能上传数据哦！");
+                }
+
+            }
+            @Override
+            public void onNegativeButtonHandle() {
+
+            }
+        });
+    }
+
+    /**
+     * 判断网络
+     */
     private void NetWorkStatus() {
         if (NetWorkStatus.isNetworkAvailable(this)) {
             RetrofitHelper.getApiService().getFarmSum(MyApp.Userid).enqueue(new MyCallBack<FarmSumData>() {
                 @Override
                 public void success(FarmSumData farmSumData) {
+                    farmSumData.setUser_id(MyApp.Userid);
+                    farmSumDataDao.insertOrReplace(farmSumData);
                     initData(farmSumData);
                 }
 
@@ -112,15 +184,26 @@ public class HaveFarmActivity extends BaseActivity implements View.OnClickListen
 
                 }
             });
+            /**无网络**/
         } else {
-            showToast("请连接网络");
+          initDataBase();
         }
 
     }
 
+    private void initDataBase() {
+        String userid = (String) sharedPreferencesUtils.getParam("user_id","");
+        FarmSumData farmSumData =farmSumDataDao.queryBuilder().where(FarmSumDataDao.Properties.User_id.eq(userid)).unique();
+        if (farmSumData !=null){
+            initData(farmSumData);
+        }else {
+            AlertDialogUtil.warningDialog(this,"温馨提示！","请先加载数据哦！");
+        }
+
+    }
+
+    /**给tab数据**/
     private void initData(FarmSumData farmSumData) {
-        farmSumData.setUser_id(MyApp.Userid);
-        farmSumDataDao.insertOrReplace(farmSumData);
         mMPopulation.setText(String.valueOf(farmSumData.getRenkou()));
         mInOutState.setText(farmSumData.getZonghui());
         if (farmSumData.getMianji() == null) {
@@ -132,9 +215,12 @@ public class HaveFarmActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void initView() {
+        EventBus.getDefault().register(this);
+        sharedPreferencesUtils = new SharedPreferencesUtils(HaveFarmActivity.this);
         farmMsgResponseDao = ((MyApp) getApplication()).getDaoSession().getFarmMsgResponseDao();
         farmSumDataDao = ((MyApp) getApplication()).getDaoSession().getFarmSumDataDao();
         back = findViewById(R.id.have_farm_bttn);
+        syndata = findViewById(R.id.synfarmdata);
         back.setOnClickListener(this);
         mHeaderIcon = (ImageView) findViewById(R.id.header_icon);
         mHeaderIcon.setOnClickListener(this);
@@ -165,17 +251,53 @@ public class HaveFarmActivity extends BaseActivity implements View.OnClickListen
         mAreaMagicIndicator = findViewById(R.id.magic_indicator2);
         mInOutMagicIndicator = findViewById(R.id.magic_indicator_farm);
 
-
-
         mBtnMember.setOnClickListener(this);
         mBtnArea.setOnClickListener(this);
         mBtnCompensate.setOnClickListener(this);
         mBtnTotal.setOnClickListener(this);
         mBtnCompensate.setOnClickListener(this);
         mFarmerMsg.setOnClickListener(this);
+        syndata.setOnClickListener(this);
         initInOutFragments();
         initAreaFragments();
         initSubsidyFragment();
+
+        if(checkUploud()){
+            syndata.setBackground(getResources().getDrawable(R.drawable.ic_action_syndata));
+        }else {
+            syndata.setBackground(getResources().getDrawable(R.drawable.ic_action_resyndata));
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    /**回调**/
+    @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
+    public void referUi(EventMessage eventMessage){
+        if (eventMessage.getMsg() ==1 && eventMessage.getMessage().equals("edit")){
+            showToast("修改成功！");
+        }else if (eventMessage.getMsg()==1&&eventMessage.getMessage().equals("add")){
+            List<FarmMsgResponse> farmMsgResponses =farmMsgResponseDao.queryBuilder().where(FarmMsgResponseDao.Properties.Status.eq(SyncDataStatus.ADD.ordinal())).list();
+            mMPopulation.setText(farmMsgResponses.size());
+        }
+    }
+
+    /**
+     * 检查更新数据
+     */
+    private boolean checkUploud() {
+        personListDao = ((MyApp) BaseUtils.getContext()).getDaoSession().getPersonListDao();
+         personLists = personListDao.queryBuilder().where(personListDao.queryBuilder().and(PersonListDao.Properties.User_id.eq(MyApp.Userid)
+                 ,PersonListDao.Properties.Status.eq(SyncDataStatus.ADD.ordinal()))).list();
+        if (personLists.size()!= 0) {
+            return true;
+        }else {
+            return false;
+        }
     }
 
     /**
@@ -184,21 +306,20 @@ public class HaveFarmActivity extends BaseActivity implements View.OnClickListen
     private void initSubsidyFragment() {
         SubsidyFragments = new ArrayList<>();
         SubsidyFragments.add(SubsidyFragment.newSubsidyInstance(3,
-                dayFormatter.format(date),
-                dayForyers.format(date))
+                firstDayForMonth.format(date),
+                lastDayForMonth.format(date))
         );
         SubsidyFragments.add(SubsidyFragment.newSubsidyInstance(5,
-                firstDayFormatter.format(date),
-                dateFormonth.format(date))
+                firstDayForYear.format(date),
+                lastDayForYears.format(date))
         );
 
         SubsidyFragments.add(SubsidyFragment.newSubsidyInstance(6,
-                firstDayFormatter.format(date),
-                dateFormatter.format(date))
+                firstDayForMonth.format(date),
+                dateForNow.format(date))
         );
         hPagerAdapter = new HPagerAdapter(getSupportFragmentManager(),FARM_CHANNELS, SubsidyFragments);
         mSubsidyViewPager.setAdapter(hPagerAdapter);
-        mSubsidyViewPager.setOffscreenPageLimit(Inoutfragments.size());
         mSubsidyViewPager.setOffscreenPageLimit(Inoutfragments.size());
         mSubsidyViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -218,7 +339,7 @@ public class HaveFarmActivity extends BaseActivity implements View.OnClickListen
 
             }
         });
-        MyMagicIndicator.initMagicIndicator(this,FARM_CHANNELS, mSubsidyViewPager, mSubsidyMagicIndicator,20);
+        MyMagicIndicator.initSimpleMagicIndicator(this,FARM_CHANNELS, mSubsidyViewPager, mSubsidyMagicIndicator,20);
 
     }
 
@@ -229,21 +350,20 @@ public class HaveFarmActivity extends BaseActivity implements View.OnClickListen
     private void initInOutFragments() {
         Inoutfragments = new ArrayList<>();
         Inoutfragments.add(InOutFragment.newInstance(3,
-                dayFormatter.format(date),
-                dayForyers.format(date))
+                firstDayForMonth.format(date),
+                lastDayForMonth.format(date))
         );
         Inoutfragments.add(InOutFragment.newInstance(5,
-                firstDayFormatter.format(date),
-                dateFormonth.format(date))
+                firstDayForYear.format(date),
+                lastDayForYears.format(date))
         );
 
         Inoutfragments.add(InOutFragment.newInstance(6,
-                firstDayFormatter.format(date),
-                dateFormatter.format(date))
+                firstDayForMonth.format(date),
+                dateForNow.format(date))
         );
         hPagerAdapter = new HPagerAdapter(getSupportFragmentManager(),FARM_CHANNELS, Inoutfragments);
         mInOutViewPager.setAdapter(hPagerAdapter);
-        mInOutViewPager.setOffscreenPageLimit(Inoutfragments.size());
         mInOutViewPager.setOffscreenPageLimit(Inoutfragments.size());
         mInOutViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -263,7 +383,7 @@ public class HaveFarmActivity extends BaseActivity implements View.OnClickListen
 
             }
         });
-        MyMagicIndicator.initMagicIndicator(this,FARM_CHANNELS, mInOutViewPager, mInOutMagicIndicator,20);
+        MyMagicIndicator.initSimpleMagicIndicator(this,FARM_CHANNELS, mInOutViewPager, mInOutMagicIndicator,20);
 
     }
     /**
@@ -272,18 +392,18 @@ public class HaveFarmActivity extends BaseActivity implements View.OnClickListen
     private void initAreaFragments() {
         AreaFragments = new ArrayList<>();
         AreaFragments.add(AreaFragment.newAreaInstance(3,
-                dayFormatter.format(date),
-                dayForyers.format(date))
+                firstDayForMonth.format(date),
+                lastDayForMonth.format(date))
         );
         AreaFragments.add(AreaFragment.newAreaInstance(5,
-                firstDayFormatter.format(date),
-                dateFormonth.format(date))
+                firstDayForYear.format(date),
+                lastDayForYears.format(date))
 
         );
 
         AreaFragments.add(AreaFragment.newAreaInstance(6,
-                firstDayFormatter.format(date),
-                dateFormatter.format(date))
+                dateForNow.format(date),
+                dateForNow.format(date))
         );
         hPagerAdapter = new HPagerAdapter(getSupportFragmentManager(),FARM_CHANNELS, AreaFragments);
         mAreaViewPager.setAdapter(hPagerAdapter);
@@ -306,29 +426,14 @@ public class HaveFarmActivity extends BaseActivity implements View.OnClickListen
 
             }
         });
-        MyMagicIndicator.initMagicIndicator(this,FARM_CHANNELS, mAreaViewPager, mAreaMagicIndicator,20);
+        MyMagicIndicator.initSimpleMagicIndicator(this,FARM_CHANNELS, mAreaViewPager, mAreaMagicIndicator,20);
 
     }
 
 
 
-    @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.btn_compensate) {
-
-        } else if (v.getId() == R.id.btn_area) {
-
-        } else if (v.getId() == R.id.btn_total) {
-
-        } else if (v.getId() == R.id.btn_member) {
-
-        } else if (v.getId() == R.id.btn_save) {
-
-        }else if (v.getId() == R.id.farmer_msg){
-            FarmerMsgActivity.instance(HaveFarmActivity.this,FarmerMsgActivity.class,null);
-        }else if (v.getId() == R.id.have_farm_bttn){
-            HaveFarmActivity.this.finish();
-        }
+    private void jumpTo(int layoutType) {
+        startActivity(new Intent(this,FarmFDHomeActivity.class).putExtra("selected",layoutType));
     }
 
     /**
@@ -337,6 +442,7 @@ public class HaveFarmActivity extends BaseActivity implements View.OnClickListen
      * @param fragment
      */
     private void AreatimePicker(final Fragment fragment) {
+
         final Calendar startTime = Calendar.getInstance();
         final Calendar endTime = Calendar.getInstance();
 
@@ -364,13 +470,13 @@ public class HaveFarmActivity extends BaseActivity implements View.OnClickListen
 
                     showToast(
                             "已选择"
-                                    + dateFormatter.format(startTime.getTime())
+                                    + dateForNow.format(startTime.getTime())
                                     + ","
-                                    + dateFormatter.format(endTime.getTime()));
+                                    + dateForNow.format(endTime.getTime()));
 
                     ((AreaFragment)fragment).sendData(
-                            dateFormatter.format(startTime.getTime()),
-                            dateFormatter.format(endTime.getTime())
+                            dateForNow.format(startTime.getTime()),
+                            dateForNow.format(endTime.getTime())
                     );
                 }
             });
@@ -412,13 +518,13 @@ public class HaveFarmActivity extends BaseActivity implements View.OnClickListen
 
                     showToast(
                             "已选择"
-                                    + dateFormatter.format(startTime.getTime())
+                                    + dateForNow.format(startTime.getTime())
                                     + ","
-                                    + dateFormatter.format(endTime.getTime()));
+                                    + dateForNow.format(endTime.getTime()));
 
                     ((InOutFragment)fragment).sendDate(
-                            dateFormatter.format(startTime.getTime()),
-                            dateFormatter.format(endTime.getTime())
+                            dateForNow.format(startTime.getTime()),
+                            dateForNow.format(endTime.getTime())
                     );
                 }
             });
@@ -461,13 +567,13 @@ public class HaveFarmActivity extends BaseActivity implements View.OnClickListen
 
                     showToast(
                             "已选择"
-                                    + dateFormatter.format(startTime.getTime())
+                                    + dateForNow.format(startTime.getTime())
                                     + ","
-                                    + dateFormatter.format(endTime.getTime()));
+                                    + dateForNow.format(endTime.getTime()));
 
                     ((SubsidyFragment)fragment).sendData(
-                            dateFormatter.format(startTime.getTime()),
-                            dateFormatter.format(endTime.getTime())
+                            dateForNow.format(startTime.getTime()),
+                            dateForNow.format(endTime.getTime())
                     );
                 }
             });

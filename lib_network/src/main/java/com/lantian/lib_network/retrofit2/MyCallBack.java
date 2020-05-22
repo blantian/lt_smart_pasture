@@ -18,6 +18,9 @@ public abstract class MyCallBack<T> implements Callback<BasicResponse<T>> {
     public void onResponse(Call<BasicResponse<T>> call, Response<BasicResponse<T>> response) {
         if (response.body().getStatus()== ErroCode.SUCCESS||response.body().getCode()==ErroCode.SUCCESS){
             success(response.body().getData());
+        }else if (response.body().getCode() == ErroCode.BREED_ID||response.body().getStatus() == ErroCode.BREED_ID){
+            success((response.body().getData()));
+            failure(response.body().getMessage());
         }else {
             failure(response.body().getMessage());
         }

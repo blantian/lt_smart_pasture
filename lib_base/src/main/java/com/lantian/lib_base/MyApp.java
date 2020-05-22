@@ -11,10 +11,12 @@ import com.isseiaoki.simplecropview.FreeCropImageView;
 import com.lantian.lib_base.database.greendao.DaoMaster;
 import com.lantian.lib_base.database.greendao.DaoSession;
 import com.lantian.lib_base.database.greendao.GreenDaoUpgradeHelper;
-import com.lantian.lib_base.utils.Utils;
+import com.lantian.lib_base.utils.BaseUtils;
 import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.loader.ImageLoader;
 import com.lzy.imagepicker.view.CropImageView;
+
+import org.greenrobot.greendao.async.AsyncSession;
 
 import java.io.File;
 
@@ -25,20 +27,28 @@ public class MyApp extends Application {
 
     public static String Userid="" ;
     public static String isAdmin ="";
-    private DaoSession daoSession;
+    public static String DaBiaoUserid = "";
+    public static String BreedId = "";
+    private static DaoSession daoSession = null;
+    private static AsyncSession asyncSession = null;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        Utils.init(this);
+        BaseUtils.init(this);
         initDataBase();
         initImagePicker();
-    }
 
+    }
 
     public DaoSession getDaoSession() {
         return daoSession;
     }
+
+    public static AsyncSession getAsyncSession() {
+        return asyncSession;
+    }
+
     /**
      * 数据库初始化
      */
@@ -47,7 +57,9 @@ public class MyApp extends Application {
         SQLiteDatabase db = helper.getWritableDatabase();
         DaoMaster daoMaster = new DaoMaster(db);
         daoSession = daoMaster.newSession();
+        asyncSession = daoSession.startAsyncSession();
     }
+
 
     /**
      * 图像选择器
@@ -88,17 +100,13 @@ public class MyApp extends Application {
         //裁剪框的形状
         imagePicker.setStyle(CropImageView.Style.RECTANGLE);
         //裁剪框的宽度。单位像素（圆形自动取宽高最小值）
-        imagePicker.setFocusWidth(800);
+        imagePicker.setFocusWidth(1000);
         //裁剪框的高度。单位像素（圆形自动取宽高最小值）
-        imagePicker.setFocusHeight(800);
+        imagePicker.setFocusHeight(1000);
         //保存文件的宽度。单位像素
         imagePicker.setOutPutX(1000);
         //保存文件的高度。单位像素
         imagePicker.setOutPutY(1000);
     }
-
-
-
-
 
 }

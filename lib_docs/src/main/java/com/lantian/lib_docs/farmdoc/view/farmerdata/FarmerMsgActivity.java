@@ -1,5 +1,6 @@
 package com.lantian.lib_docs.farmdoc.view.farmerdata;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -9,12 +10,16 @@ import android.widget.TextView;
 
 import com.lantian.lib_base.MyApp;
 import com.lantian.lib_base.entity.module.response.farmer.farmlist.HuzhuList;
+import com.lantian.lib_base.utils.EventMessage;
 import com.lantian.lib_commin_ui.base.BaseActivity;
 import com.lantian.lib_docs.R;
 import com.lantian.lib_docs.farmdoc.view.home.FarmHomeActivity;
+import com.lantian.lib_image_loader.loadpic.ImageLoaderManager;
 import com.lantian.lib_network.networkstatus.NetWorkStatus;
 import com.lantian.lib_network.retrofit2.MyCallBack;
 import com.lantian.lib_network.retrofit2.RetrofitHelper;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
@@ -65,6 +70,7 @@ public class FarmerMsgActivity extends BaseActivity implements View.OnClickListe
         back = findViewById(R.id.msg_btn_back);
         mEdit = findViewById(R.id.msg_edit);
         mEdit2 = findViewById(R.id.msg_edit2);
+        mEtIdAge = findViewById(R.id.et_idAge);
         mEdit.setOnClickListener(this);
         mEdit2.setOnClickListener(this);
         back.setOnClickListener(this);
@@ -109,7 +115,24 @@ public class FarmerMsgActivity extends BaseActivity implements View.OnClickListe
            }else if (huzhu.getLabour_type().equals("2")){
                mSForce.setText("否");
            }
-
+           if (huzhu.getIdcard_front()!=null&&huzhu.getIdcard_side()!=null){
+               ImageLoaderManager.getInstance().displayImageForView(mIdcard1,huzhu.getIdcard_front());
+               ImageLoaderManager.getInstance().displayImageForView(mIdcard2,huzhu.getIdcard_side());
+           }
+           if (huzhu.getIdcard_gender()!=null&&huzhu.getIdcard_gender().equals("1")){
+               mEtSex.setText("男");
+           }else if (huzhu.getIdcard_gender()!=null&&huzhu.getIdcard_gender().equals("2")){
+               mEtSex.setText("女");
+           }
+           if (huzhu.getBirth_date()!=null){
+               mEtIdBirth.setText(huzhu.getBirth_date());
+           }
+           if (huzhu.getAge()!=null){
+               mEtIdAge.setText(huzhu.getAge());
+           }
+           if (huzhu.getXiangxi()!=null){
+               mEtIdDetails.setText(huzhu.getXiangxi());
+           }
        }
     }
 
@@ -121,7 +144,10 @@ public class FarmerMsgActivity extends BaseActivity implements View.OnClickListe
         }else if (v.getId()==R.id.msg_edit){
             FarmHomeActivity.instance(this,FarmHomeActivity.class,null);
         }else if (v.getId() ==R.id.msg_edit2){
-            FarmHomeActivity.instance(this,FarmHomeActivity.class,null);
+            EventBus.getDefault().post(new EventMessage(8,"1"));
+            startActivity(
+                    new Intent(FarmerMsgActivity.this, FarmHomeActivity.class).putExtra("type", 1));
+            finish();
         }
     }
 }

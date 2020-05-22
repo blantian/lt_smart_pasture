@@ -10,14 +10,14 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.lantian.lib_commin_ui.utils.StatusBarUtil;
 import com.lantian.lib_base.utils.ToastUtils;
+import com.lantian.lib_commin_ui.utils.StatusBarUtil;
 import com.trello.rxlifecycle2.components.support.RxFragmentActivity;
 
 /**
  * Created by Sherlock·Holmes on 2020-02-11
  */
-public abstract class BaseActivity extends RxFragmentActivity {
+public abstract class BaseActivity extends RxFragmentActivity{
 
     protected ActivityManagerUtil appManager = ActivityManagerUtil.getAppManager();
     // 类名
@@ -40,6 +40,7 @@ public abstract class BaseActivity extends RxFragmentActivity {
      */
     public static void instance(Context context, Class<?> cType, Bundle args){
         Intent intent = new Intent(context, cType);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
         if(args !=null){
             intent.putExtras(args);
         }
@@ -114,4 +115,5 @@ public abstract class BaseActivity extends RxFragmentActivity {
         super.onDestroy();
         appManager.finishActivity(this);
     }
+
 }

@@ -46,16 +46,14 @@
     <Space
         android:layout_width="match_parent"
         android:layout_height="20dp"/>
-
-    <com.scwang.smartrefresh.layout.SmartRefreshLayout
-        android:id="@+id/refreshView"
+   <!-- <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/spl_farm"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"> -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/farm_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
-    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
-
+    <!--</androidx.swiperefreshlayout.widget.SwipeRefreshLayout> -->
 
 </LinearLayout>

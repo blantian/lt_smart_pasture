@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:drawableLeft="@drawable/ic_action_msg"
-            android:text="  xx"
+            android:text="     xx"
             android:textColor="@color/afterSelector"
             android:textSize="17sp" />
 
@@ -41,17 +41,6 @@
             android:textColor="@color/afterSelector"
             android:textSize="17sp" />
     </LinearLayout>
-
-    <com.scwang.smartrefresh.layout.SmartRefreshLayout
-        android:id="@+id/refreshLayout"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        app:srlEnablePreviewInEditMode="true">
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/fdmember_list"
             android:layout_width="match_parent"
@@ -61,14 +50,9 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp" />
-    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
-
-    <ImageView
-        android:id="@+id/belowbackground"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bg"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+ <include
+     layout="@layout/incloud_bg"
+     android:layout_height="wrap_content"
+     android:layout_width="match_parent">
+ </include>
 </LinearLayout>

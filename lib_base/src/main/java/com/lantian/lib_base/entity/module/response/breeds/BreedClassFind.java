@@ -1,8 +1,14 @@
 package com.lantian.lib_base.entity.module.response.breeds;
 
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.Generated;
+
 /**
  * Created by Sherlock·Holmes on 2020-03-31
  */
+
+@Entity
 public class BreedClassFind {
 
     /**
@@ -13,13 +19,30 @@ public class BreedClassFind {
      * img : null
      * memberid : 0
      */
-
+    @Id
     private String id;
+    private int status;
     private String name;
     private String addtime;
     private String shenhe;
-    private Object img;
+    private String img;
     private String memberid;
+
+    @Generated(hash = 2128343899)
+    public BreedClassFind(String id, int status, String name, String addtime,
+            String shenhe, String img, String memberid) {
+        this.id = id;
+        this.status = status;
+        this.name = name;
+        this.addtime = addtime;
+        this.shenhe = shenhe;
+        this.img = img;
+        this.memberid = memberid;
+    }
+
+    @Generated(hash = 1015654385)
+    public BreedClassFind() {
+    }
 
     public String getId() {
         return id;
@@ -53,11 +76,11 @@ public class BreedClassFind {
         this.shenhe = shenhe;
     }
 
-    public Object getImg() {
+    public String getImg() {
         return img;
     }
 
-    public void setImg(Object img) {
+    public void setImg(String img) {
         this.img = img;
     }
 
@@ -67,5 +90,13 @@ public class BreedClassFind {
 
     public void setMemberid(String memberid) {
         this.memberid = memberid;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

@@ -1,4 +1,5 @@
 package com.lantian.lib_network.common;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.JsonParseException;
@@ -47,7 +48,8 @@ public abstract class ResponseObserver<T> implements Observer<T> {
                 /**解析错误**/
                 if (e instanceof JsonParseException
                         || e instanceof JSONException
-                        || e instanceof ParseException){
+                        || e instanceof ParseException) {
+                    Log.e("erro",e +"");
                     onException(ExceptionReason.PARSE_ERROR);
                 }else
                     /**服务器返回异常**/

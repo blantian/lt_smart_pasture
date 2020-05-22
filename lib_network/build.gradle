@@ -42,7 +42,7 @@ dependencies {
     api this.rootProject.depsLibs.logginginterceptor
     implementation this.rootProject.depsLibs.rxjava2
     implementation this.rootProject.depsLibs.adapterrxjava2
-    api project(path: ':lib_lan')
+    api project(path: ':lib_base')
 
 
 }

@@ -11,14 +11,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.lantian.lib_base.MyApp;
-import com.lantian.lib_base.entity.module.response.breeds.Breeds;
-import com.lantian.lib_base.utils.Utils;
+import com.lantian.lib_base.file.sharedpreferences.SharedPreferencesUtils;
+import com.lantian.lib_base.entity.module.response.breeds.BreedsOfUser;
+import com.lantian.lib_base.utils.BaseUtils;
 import com.lantian.lib_docs.R;
 import com.lantian.lib_docs.breeddoc.NewBreedActivity;
 import com.lantian.lib_docs.breeddoc.dabiaoyonghu.SingleBreedActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Sherlock·Holmes on 2020-03-31
@@ -27,10 +28,12 @@ public class HaveBreedAdapter extends RecyclerView.Adapter<HaveBreedAdapter.Have
 
     private static final String DAO_BIAO_USER = "5";
     private Context context;
+    /**分用户所用**/
     private String userid;
-    private ArrayList<Breeds> breeds = new ArrayList<>();
+    private List<BreedsOfUser.DataBean> breeds = new ArrayList<>();
+    private SharedPreferencesUtils sharedPreferencesUtils;
 
-    public HaveBreedAdapter(ArrayList<Breeds> breeds,Context context,String userid){
+    public HaveBreedAdapter(List<BreedsOfUser.DataBean> breeds, Context context, String userid){
         this.breeds  = breeds;
         this.context =  context;
         this.userid = userid;
@@ -45,23 +48,24 @@ public class HaveBreedAdapter extends RecyclerView.Adapter<HaveBreedAdapter.Have
 
     @Override
     public void onBindViewHolder(@NonNull HaveBreedHoder holder, int position) {
-        final Breeds breed = breeds.get(position);
+        sharedPreferencesUtils = new SharedPreferencesUtils(BaseUtils.getContext());
+        final Object isAdmin = sharedPreferencesUtils.getParam("isAdmin","");
+        final BreedsOfUser.DataBean breed = breeds.get(position);
         holder.Showbreedsname.setText(breed.getName());
         holder.showbreedsnumber.setText(breed.getCount());
         holder.breeds.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Bundle bundle = new Bundle();
                 bundle.putString("breed_id",breed.getId());
                 bundle.putString("breed_name",breed.getName());
                 bundle.putString("user_id",userid);
-                if (MyApp.isAdmin.equals(DAO_BIAO_USER)){
+                if (String.valueOf(isAdmin).equals(DAO_BIAO_USER)){
                     /**打标用户牲畜列表页面**/
-                    SingleBreedActivity.instance(Utils.getContext(), SingleBreedActivity.class,bundle);
+                    SingleBreedActivity.instance(BaseUtils.getContext(), SingleBreedActivity.class,bundle);
                 }else {
                     /**普通用户牲畜列表页面**/
-                    NewBreedActivity.instance(Utils.getContext(),NewBreedActivity.class,bundle);
+                    NewBreedActivity.instance(BaseUtils.getContext(),NewBreedActivity.class,bundle);
                 }
 
 

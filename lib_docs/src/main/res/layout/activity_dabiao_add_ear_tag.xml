@@ -44,6 +44,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <TextView
+            android:id="@+id/syndata"
+            android:background="@drawable/ic_action_resyndata"
             android:layout_width="25dp"
             android:layout_height="25dp"/>
     </LinearLayout>
@@ -101,7 +103,7 @@
             android:text="添加"
             android:background="@color/colorsave"
             android:id="@+id/dabiao_add_breed"
-            android:layout_width="50dp"
+            android:layout_width="40dp"
             android:layout_height="40dp"/>
         <TextView
             android:textStyle="bold"
@@ -117,7 +119,7 @@
             android:textStyle="bold"
             android:textColor="@color/colorwhite"
             android:background="@color/colorsave"
-            android:layout_width="30dp"
+            android:layout_width="wrap_content"
             android:layout_height="40dp"/>
         <TextView
             android:textStyle="bold"
@@ -137,12 +139,17 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="10dp"
         android:orientation="horizontal">
-
+        <LinearLayout
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:layout_width="0px"
+            android:layout_height="0px"/>
         <EditText
             android:id="@+id/ear_tag_search"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:textColor="@color/colorwhite"
             android:background="@drawable/edit_bg"
             android:hint="请输入耳标"
             android:paddingLeft="10dp" />
@@ -200,7 +207,7 @@
 
         <TextView
             android:id="@+id/btn_sex"
-            android:layout_width="0dp"
+            android:layout_width="20dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center_vertical|center_horizontal"
@@ -221,7 +228,7 @@
 
         <TextView
             android:id="@+id/btn_breeding"
-            android:layout_width="0dp"
+            android:layout_width="20dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center_vertical|center_horizontal"
@@ -242,7 +249,7 @@
 
         <TextView
             android:id="@+id/btn_wight"
-            android:layout_width="0dp"
+            android:layout_width="20dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center_vertical|center_horizontal"
@@ -255,17 +262,17 @@
             android:layout_height="20dp"
             android:layout_gravity="center_vertical"
             android:background="@drawable/ic_action_arrange" />
-
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1" />
     </LinearLayout>
-
     <androidx.core.widget.NestedScrollView
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:scrollbars="vertical"
+        android:fadeScrollbars="false"
+        android:layout_height="wrap_content">
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -274,12 +281,14 @@
                 android:id="@+id/ear_breeds_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
-            <include
-                layout="@layout/incloud_bg"
+            <Space
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            </include>
+                android:layout_height="@dimen/sp_16"/>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-
+    <include
+        layout="@layout/incloud_bg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </include>
 </LinearLayout>

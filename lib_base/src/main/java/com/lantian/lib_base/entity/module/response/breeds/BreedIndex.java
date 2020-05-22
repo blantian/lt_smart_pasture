@@ -1,11 +1,17 @@
 package com.lantian.lib_base.entity.module.response.breeds;
 
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.Index;
+
 import java.io.Serializable;
 
 /**
  * Created by Sherlock·Holmes on 2020-03-31
  * 牲畜列表信息
  */
+@Entity(indexes = {@Index(value = "id,status DESC",unique = true)})
 public class BreedIndex implements Serializable {
 
     /**
@@ -38,8 +44,13 @@ public class BreedIndex implements Serializable {
      * type : 1
      */
 
+    private static final long serialVersionUID = 1L;
+    private int status;
+    @Id
     private String id;
+
     private String user_id;
+
     private String hukou_id;
     private String breedclass_id;
     private String number;
@@ -65,6 +76,48 @@ public class BreedIndex implements Serializable {
     private String weight;
     private String dizhi;
     private String type;
+
+    @Generated(hash = 1297894106)
+    public BreedIndex(int status, String id, String user_id, String hukou_id,
+            String breedclass_id, String number, String acquisition_time, String title,
+            String age, String become_time, String become_price, String price, String addtime,
+            String shenhe, String img, String common, String mother, String sheng, String shi,
+            String xian, String variety_id, String supplier_id, String user_idt,
+            String birthday, String insurance_type, String weight, String dizhi,
+            String type) {
+        this.status = status;
+        this.id = id;
+        this.user_id = user_id;
+        this.hukou_id = hukou_id;
+        this.breedclass_id = breedclass_id;
+        this.number = number;
+        this.acquisition_time = acquisition_time;
+        this.title = title;
+        this.age = age;
+        this.become_time = become_time;
+        this.become_price = become_price;
+        this.price = price;
+        this.addtime = addtime;
+        this.shenhe = shenhe;
+        this.img = img;
+        this.common = common;
+        this.mother = mother;
+        this.sheng = sheng;
+        this.shi = shi;
+        this.xian = xian;
+        this.variety_id = variety_id;
+        this.supplier_id = supplier_id;
+        this.user_idt = user_idt;
+        this.birthday = birthday;
+        this.insurance_type = insurance_type;
+        this.weight = weight;
+        this.dizhi = dizhi;
+        this.type = type;
+    }
+
+    @Generated(hash = 286530603)
+    public BreedIndex() {
+    }
 
     public String getId() {
         return id;
@@ -280,5 +333,13 @@ public class BreedIndex implements Serializable {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

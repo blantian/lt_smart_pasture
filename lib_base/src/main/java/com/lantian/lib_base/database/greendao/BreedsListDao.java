@@ -19,7 +19,7 @@ import com.lantian.lib_base.entity.module.response.breeds.BreedsList;
 /** 
  * DAO for table "BREEDS_LIST".
 */
-public class BreedsListDao extends AbstractDao<BreedsList, Void> {
+public class BreedsListDao extends AbstractDao<BreedsList, String> {
 
     public static final String TABLENAME = "BREEDS_LIST";
 
@@ -28,32 +28,33 @@ public class BreedsListDao extends AbstractDao<BreedsList, Void> {
      * Can be used for QueryBuilder and for referencing column names.
      */
     public static class Properties {
-        public final static Property Id = new Property(0, String.class, "id", false, "ID");
-        public final static Property Breed_id = new Property(1, String.class, "breed_id", false, "BREED_ID");
-        public final static Property Eartag_id = new Property(2, String.class, "eartag_id", false, "EARTAG_ID");
-        public final static Property Addtime = new Property(3, String.class, "addtime", false, "ADDTIME");
-        public final static Property Type = new Property(4, String.class, "type", false, "TYPE");
-        public final static Property Pid = new Property(5, String.class, "pid", false, "PID");
-        public final static Property Weight = new Property(6, String.class, "weight", false, "WEIGHT");
-        public final static Property Age = new Property(7, String.class, "age", false, "AGE");
-        public final static Property Type_in = new Property(8, String.class, "type_in", false, "TYPE_IN");
-        public final static Property Survival = new Property(9, String.class, "survival", false, "SURVIVAL");
-        public final static Property Img = new Property(10, String.class, "img", false, "IMG");
-        public final static Property User_id = new Property(11, String.class, "user_id", false, "USER_ID");
-        public final static Property Qrcode = new Property(12, String.class, "qrcode", false, "QRCODE");
-        public final static Property Length = new Property(13, String.class, "length", false, "LENGTH");
-        public final static Property Update_userid = new Property(14, String.class, "update_userid", false, "UPDATE_USERID");
-        public final static Property Edittime = new Property(15, String.class, "edittime", false, "EDITTIME");
-        public final static Property Hah = new Property(16, String.class, "hah", false, "HAH");
-        public final static Property Breeds_id = new Property(17, String.class, "breeds_id", false, "BREEDS_ID");
-        public final static Property Number = new Property(18, String.class, "number", false, "NUMBER");
-        public final static Property Sretype = new Property(19, String.class, "sretype", false, "SRETYPE");
-        public final static Property Sretypein = new Property(20, String.class, "sretypein", false, "SRETYPEIN");
-        public final static Property Userbr_id = new Property(21, String.class, "userbr_id", false, "USERBR_ID");
-        public final static Property Eartag = new Property(22, String.class, "eartag", false, "EARTAG");
-        public final static Property Breed = new Property(23, String.class, "breed", false, "BREED");
-        public final static Property Piddata = new Property(24, String.class, "piddata", false, "PIDDATA");
-        public final static Property Pidcount = new Property(25, String.class, "pidcount", false, "PIDCOUNT");
+        public final static Property Status = new Property(0, int.class, "status", false, "STATUS");
+        public final static Property Id = new Property(1, String.class, "id", true, "ID");
+        public final static Property Breed_id = new Property(2, String.class, "breed_id", false, "BREED_ID");
+        public final static Property Eartag_id = new Property(3, String.class, "eartag_id", false, "EARTAG_ID");
+        public final static Property Addtime = new Property(4, String.class, "addtime", false, "ADDTIME");
+        public final static Property Type = new Property(5, String.class, "type", false, "TYPE");
+        public final static Property Pid = new Property(6, String.class, "pid", false, "PID");
+        public final static Property Weight = new Property(7, String.class, "weight", false, "WEIGHT");
+        public final static Property Age = new Property(8, String.class, "age", false, "AGE");
+        public final static Property Type_in = new Property(9, String.class, "type_in", false, "TYPE_IN");
+        public final static Property Survival = new Property(10, String.class, "survival", false, "SURVIVAL");
+        public final static Property Img = new Property(11, String.class, "img", false, "IMG");
+        public final static Property User_id = new Property(12, String.class, "user_id", false, "USER_ID");
+        public final static Property Qrcode = new Property(13, String.class, "qrcode", false, "QRCODE");
+        public final static Property Length = new Property(14, String.class, "length", false, "LENGTH");
+        public final static Property Update_userid = new Property(15, String.class, "update_userid", false, "UPDATE_USERID");
+        public final static Property Edittime = new Property(16, String.class, "edittime", false, "EDITTIME");
+        public final static Property Hah = new Property(17, String.class, "hah", false, "HAH");
+        public final static Property Breeds_id = new Property(18, String.class, "breeds_id", false, "BREEDS_ID");
+        public final static Property Number = new Property(19, String.class, "number", false, "NUMBER");
+        public final static Property Sretype = new Property(20, String.class, "sretype", false, "SRETYPE");
+        public final static Property Sretypein = new Property(21, String.class, "sretypein", false, "SRETYPEIN");
+        public final static Property Userbr_id = new Property(22, String.class, "userbr_id", false, "USERBR_ID");
+        public final static Property Eartag = new Property(23, String.class, "eartag", false, "EARTAG");
+        public final static Property Breed = new Property(24, String.class, "breed", false, "BREED");
+        public final static Property Piddata = new Property(25, String.class, "piddata", false, "PIDDATA");
+        public final static Property Pidcount = new Property(26, String.class, "pidcount", false, "PIDCOUNT");
     }
 
     private final EartagBeanConverter eartagConverter = new EartagBeanConverter();
@@ -72,35 +73,36 @@ public class BreedsListDao extends AbstractDao<BreedsList, Void> {
     public static void createTable(Database db, boolean ifNotExists) {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"BREEDS_LIST\" (" + //
-                "\"ID\" TEXT," + // 0: id
-                "\"BREED_ID\" TEXT," + // 1: breed_id
-                "\"EARTAG_ID\" TEXT," + // 2: eartag_id
-                "\"ADDTIME\" TEXT," + // 3: addtime
-                "\"TYPE\" TEXT," + // 4: type
-                "\"PID\" TEXT," + // 5: pid
-                "\"WEIGHT\" TEXT," + // 6: weight
-                "\"AGE\" TEXT," + // 7: age
-                "\"TYPE_IN\" TEXT," + // 8: type_in
-                "\"SURVIVAL\" TEXT," + // 9: survival
-                "\"IMG\" TEXT," + // 10: img
-                "\"USER_ID\" TEXT," + // 11: user_id
-                "\"QRCODE\" TEXT," + // 12: qrcode
-                "\"LENGTH\" TEXT," + // 13: length
-                "\"UPDATE_USERID\" TEXT," + // 14: update_userid
-                "\"EDITTIME\" TEXT," + // 15: edittime
-                "\"HAH\" TEXT," + // 16: hah
-                "\"BREEDS_ID\" TEXT," + // 17: breeds_id
-                "\"NUMBER\" TEXT," + // 18: number
-                "\"SRETYPE\" TEXT," + // 19: sretype
-                "\"SRETYPEIN\" TEXT," + // 20: sretypein
-                "\"USERBR_ID\" TEXT," + // 21: userbr_id
-                "\"EARTAG\" TEXT," + // 22: eartag
-                "\"BREED\" TEXT," + // 23: breed
-                "\"PIDDATA\" TEXT," + // 24: piddata
-                "\"PIDCOUNT\" TEXT);"); // 25: pidcount
+                "\"STATUS\" INTEGER NOT NULL ," + // 0: status
+                "\"ID\" TEXT PRIMARY KEY NOT NULL ," + // 1: id
+                "\"BREED_ID\" TEXT," + // 2: breed_id
+                "\"EARTAG_ID\" TEXT," + // 3: eartag_id
+                "\"ADDTIME\" TEXT," + // 4: addtime
+                "\"TYPE\" TEXT," + // 5: type
+                "\"PID\" TEXT," + // 6: pid
+                "\"WEIGHT\" TEXT," + // 7: weight
+                "\"AGE\" TEXT," + // 8: age
+                "\"TYPE_IN\" TEXT," + // 9: type_in
+                "\"SURVIVAL\" TEXT," + // 10: survival
+                "\"IMG\" TEXT," + // 11: img
+                "\"USER_ID\" TEXT," + // 12: user_id
+                "\"QRCODE\" TEXT," + // 13: qrcode
+                "\"LENGTH\" TEXT," + // 14: length
+                "\"UPDATE_USERID\" TEXT," + // 15: update_userid
+                "\"EDITTIME\" TEXT," + // 16: edittime
+                "\"HAH\" TEXT," + // 17: hah
+                "\"BREEDS_ID\" TEXT," + // 18: breeds_id
+                "\"NUMBER\" TEXT," + // 19: number
+                "\"SRETYPE\" TEXT," + // 20: sretype
+                "\"SRETYPEIN\" TEXT," + // 21: sretypein
+                "\"USERBR_ID\" TEXT," + // 22: userbr_id
+                "\"EARTAG\" TEXT," + // 23: eartag
+                "\"BREED\" TEXT," + // 24: breed
+                "\"PIDDATA\" TEXT," + // 25: piddata
+                "\"PIDCOUNT\" TEXT);"); // 26: pidcount
         // Add Indexes
-        db.execSQL("CREATE UNIQUE INDEX " + constraint + "IDX_BREEDS_LIST_ID_DESC_BREED_ID_WEIGHT_DESC_TYPE_DESC_PIDCOUNT_DESC ON \"BREEDS_LIST\"" +
-                " (\"ID\" DESC,\"BREED_ID\" ASC,\"WEIGHT\" DESC,\"TYPE\" DESC,\"PIDCOUNT\" DESC);");
+        db.execSQL("CREATE UNIQUE INDEX " + constraint + "IDX_BREEDS_LIST_ID_WEIGHT_DESC ON \"BREEDS_LIST\"" +
+                " (\"ID\" ASC,\"WEIGHT\" DESC);");
     }
 
     /** Drops the underlying database table. */
@@ -112,356 +114,362 @@ public class BreedsListDao extends AbstractDao<BreedsList, Void> {
     @Override
     protected final void bindValues(DatabaseStatement stmt, BreedsList entity) {
         stmt.clearBindings();
+        stmt.bindLong(1, entity.getStatus());
  
         String id = entity.getId();
         if (id != null) {
-            stmt.bindString(1, id);
+            stmt.bindString(2, id);
         }
  
         String breed_id = entity.getBreed_id();
         if (breed_id != null) {
-            stmt.bindString(2, breed_id);
+            stmt.bindString(3, breed_id);
         }
  
         String eartag_id = entity.getEartag_id();
         if (eartag_id != null) {
-            stmt.bindString(3, eartag_id);
+            stmt.bindString(4, eartag_id);
         }
  
         String addtime = entity.getAddtime();
         if (addtime != null) {
-            stmt.bindString(4, addtime);
+            stmt.bindString(5, addtime);
         }
  
         String type = entity.getType();
         if (type != null) {
-            stmt.bindString(5, type);
+            stmt.bindString(6, type);
         }
  
         String pid = entity.getPid();
         if (pid != null) {
-            stmt.bindString(6, pid);
+            stmt.bindString(7, pid);
         }
  
         String weight = entity.getWeight();
         if (weight != null) {
-            stmt.bindString(7, weight);
+            stmt.bindString(8, weight);
         }
  
         String age = entity.getAge();
         if (age != null) {
-            stmt.bindString(8, age);
+            stmt.bindString(9, age);
         }
  
         String type_in = entity.getType_in();
         if (type_in != null) {
-            stmt.bindString(9, type_in);
+            stmt.bindString(10, type_in);
         }
  
         String survival = entity.getSurvival();
         if (survival != null) {
-            stmt.bindString(10, survival);
+            stmt.bindString(11, survival);
         }
  
         String img = entity.getImg();
         if (img != null) {
-            stmt.bindString(11, img);
+            stmt.bindString(12, img);
         }
  
         String user_id = entity.getUser_id();
         if (user_id != null) {
-            stmt.bindString(12, user_id);
+            stmt.bindString(13, user_id);
         }
  
         String qrcode = entity.getQrcode();
         if (qrcode != null) {
-            stmt.bindString(13, qrcode);
+            stmt.bindString(14, qrcode);
         }
  
         String length = entity.getLength();
         if (length != null) {
-            stmt.bindString(14, length);
+            stmt.bindString(15, length);
         }
  
         String update_userid = entity.getUpdate_userid();
         if (update_userid != null) {
-            stmt.bindString(15, update_userid);
+            stmt.bindString(16, update_userid);
         }
  
         String edittime = entity.getEdittime();
         if (edittime != null) {
-            stmt.bindString(16, edittime);
+            stmt.bindString(17, edittime);
         }
  
         String hah = entity.getHah();
         if (hah != null) {
-            stmt.bindString(17, hah);
+            stmt.bindString(18, hah);
         }
  
         String breeds_id = entity.getBreeds_id();
         if (breeds_id != null) {
-            stmt.bindString(18, breeds_id);
+            stmt.bindString(19, breeds_id);
         }
  
         String number = entity.getNumber();
         if (number != null) {
-            stmt.bindString(19, number);
+            stmt.bindString(20, number);
         }
  
         String sretype = entity.getSretype();
         if (sretype != null) {
-            stmt.bindString(20, sretype);
+            stmt.bindString(21, sretype);
         }
  
         String sretypein = entity.getSretypein();
         if (sretypein != null) {
-            stmt.bindString(21, sretypein);
+            stmt.bindString(22, sretypein);
         }
  
         String userbr_id = entity.getUserbr_id();
         if (userbr_id != null) {
-            stmt.bindString(22, userbr_id);
+            stmt.bindString(23, userbr_id);
         }
  
         EartagBean eartag = entity.getEartag();
         if (eartag != null) {
-            stmt.bindString(23, eartagConverter.convertToDatabaseValue(eartag));
+            stmt.bindString(24, eartagConverter.convertToDatabaseValue(eartag));
         }
  
         BreedBean breed = entity.getBreed();
         if (breed != null) {
-            stmt.bindString(24, breedConverter.convertToDatabaseValue(breed));
+            stmt.bindString(25, breedConverter.convertToDatabaseValue(breed));
         }
  
         PiddataBean piddata = entity.getPiddata();
         if (piddata != null) {
-            stmt.bindString(25, piddataConverter.convertToDatabaseValue(piddata));
+            stmt.bindString(26, piddataConverter.convertToDatabaseValue(piddata));
         }
  
         String pidcount = entity.getPidcount();
         if (pidcount != null) {
-            stmt.bindString(26, pidcount);
+            stmt.bindString(27, pidcount);
         }
     }
 
     @Override
     protected final void bindValues(SQLiteStatement stmt, BreedsList entity) {
         stmt.clearBindings();
+        stmt.bindLong(1, entity.getStatus());
  
         String id = entity.getId();
         if (id != null) {
-            stmt.bindString(1, id);
+            stmt.bindString(2, id);
         }
  
         String breed_id = entity.getBreed_id();
         if (breed_id != null) {
-            stmt.bindString(2, breed_id);
+            stmt.bindString(3, breed_id);
         }
  
         String eartag_id = entity.getEartag_id();
         if (eartag_id != null) {
-            stmt.bindString(3, eartag_id);
+            stmt.bindString(4, eartag_id);
         }
  
         String addtime = entity.getAddtime();
         if (addtime != null) {
-            stmt.bindString(4, addtime);
+            stmt.bindString(5, addtime);
         }
  
         String type = entity.getType();
         if (type != null) {
-            stmt.bindString(5, type);
+            stmt.bindString(6, type);
         }
  
         String pid = entity.getPid();
         if (pid != null) {
-            stmt.bindString(6, pid);
+            stmt.bindString(7, pid);
         }
  
         String weight = entity.getWeight();
         if (weight != null) {
-            stmt.bindString(7, weight);
+            stmt.bindString(8, weight);
         }
  
         String age = entity.getAge();
         if (age != null) {
-            stmt.bindString(8, age);
+            stmt.bindString(9, age);
         }
  
         String type_in = entity.getType_in();
         if (type_in != null) {
-            stmt.bindString(9, type_in);
+            stmt.bindString(10, type_in);
         }
  
         String survival = entity.getSurvival();
         if (survival != null) {
-            stmt.bindString(10, survival);
+            stmt.bindString(11, survival);
         }
  
         String img = entity.getImg();
         if (img != null) {
-            stmt.bindString(11, img);
+            stmt.bindString(12, img);
         }
  
         String user_id = entity.getUser_id();
         if (user_id != null) {
-            stmt.bindString(12, user_id);
+            stmt.bindString(13, user_id);
         }
  
         String qrcode = entity.getQrcode();
         if (qrcode != null) {
-            stmt.bindString(13, qrcode);
+            stmt.bindString(14, qrcode);
         }
  
         String length = entity.getLength();
         if (length != null) {
-            stmt.bindString(14, length);
+            stmt.bindString(15, length);
         }
  
         String update_userid = entity.getUpdate_userid();
         if (update_userid != null) {
-            stmt.bindString(15, update_userid);
+            stmt.bindString(16, update_userid);
         }
  
         String edittime = entity.getEdittime();
         if (edittime != null) {
-            stmt.bindString(16, edittime);
+            stmt.bindString(17, edittime);
         }
  
         String hah = entity.getHah();
         if (hah != null) {
-            stmt.bindString(17, hah);
+            stmt.bindString(18, hah);
         }
  
         String breeds_id = entity.getBreeds_id();
         if (breeds_id != null) {
-            stmt.bindString(18, breeds_id);
+            stmt.bindString(19, breeds_id);
         }
  
         String number = entity.getNumber();
         if (number != null) {
-            stmt.bindString(19, number);
+            stmt.bindString(20, number);
         }
  
         String sretype = entity.getSretype();
         if (sretype != null) {
-            stmt.bindString(20, sretype);
+            stmt.bindString(21, sretype);
         }
  
         String sretypein = entity.getSretypein();
         if (sretypein != null) {
-            stmt.bindString(21, sretypein);
+            stmt.bindString(22, sretypein);
         }
  
         String userbr_id = entity.getUserbr_id();
         if (userbr_id != null) {
-            stmt.bindString(22, userbr_id);
+            stmt.bindString(23, userbr_id);
         }
  
         EartagBean eartag = entity.getEartag();
         if (eartag != null) {
-            stmt.bindString(23, eartagConverter.convertToDatabaseValue(eartag));
+            stmt.bindString(24, eartagConverter.convertToDatabaseValue(eartag));
         }
  
         BreedBean breed = entity.getBreed();
         if (breed != null) {
-            stmt.bindString(24, breedConverter.convertToDatabaseValue(breed));
+            stmt.bindString(25, breedConverter.convertToDatabaseValue(breed));
         }
  
         PiddataBean piddata = entity.getPiddata();
         if (piddata != null) {
-            stmt.bindString(25, piddataConverter.convertToDatabaseValue(piddata));
+            stmt.bindString(26, piddataConverter.convertToDatabaseValue(piddata));
         }
  
         String pidcount = entity.getPidcount();
         if (pidcount != null) {
-            stmt.bindString(26, pidcount);
+            stmt.bindString(27, pidcount);
         }
     }
 
     @Override
-    public Void readKey(Cursor cursor, int offset) {
-        return null;
+    public String readKey(Cursor cursor, int offset) {
+        return cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1);
     }    
 
     @Override
     public BreedsList readEntity(Cursor cursor, int offset) {
         BreedsList entity = new BreedsList( //
-            cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0), // id
-            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // breed_id
-            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // eartag_id
-            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // addtime
-            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // type
-            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // pid
-            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // weight
-            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // age
-            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // type_in
-            cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // survival
-            cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // img
-            cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11), // user_id
-            cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12), // qrcode
-            cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13), // length
-            cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14), // update_userid
-            cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15), // edittime
-            cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16), // hah
-            cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17), // breeds_id
-            cursor.isNull(offset + 18) ? null : cursor.getString(offset + 18), // number
-            cursor.isNull(offset + 19) ? null : cursor.getString(offset + 19), // sretype
-            cursor.isNull(offset + 20) ? null : cursor.getString(offset + 20), // sretypein
-            cursor.isNull(offset + 21) ? null : cursor.getString(offset + 21), // userbr_id
-            cursor.isNull(offset + 22) ? null : eartagConverter.convertToEntityProperty(cursor.getString(offset + 22)), // eartag
-            cursor.isNull(offset + 23) ? null : breedConverter.convertToEntityProperty(cursor.getString(offset + 23)), // breed
-            cursor.isNull(offset + 24) ? null : piddataConverter.convertToEntityProperty(cursor.getString(offset + 24)), // piddata
-            cursor.isNull(offset + 25) ? null : cursor.getString(offset + 25) // pidcount
+            cursor.getInt(offset + 0), // status
+            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // id
+            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // breed_id
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // eartag_id
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // addtime
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // type
+            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // pid
+            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // weight
+            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // age
+            cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // type_in
+            cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // survival
+            cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11), // img
+            cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12), // user_id
+            cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13), // qrcode
+            cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14), // length
+            cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15), // update_userid
+            cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16), // edittime
+            cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17), // hah
+            cursor.isNull(offset + 18) ? null : cursor.getString(offset + 18), // breeds_id
+            cursor.isNull(offset + 19) ? null : cursor.getString(offset + 19), // number
+            cursor.isNull(offset + 20) ? null : cursor.getString(offset + 20), // sretype
+            cursor.isNull(offset + 21) ? null : cursor.getString(offset + 21), // sretypein
+            cursor.isNull(offset + 22) ? null : cursor.getString(offset + 22), // userbr_id
+            cursor.isNull(offset + 23) ? null : eartagConverter.convertToEntityProperty(cursor.getString(offset + 23)), // eartag
+            cursor.isNull(offset + 24) ? null : breedConverter.convertToEntityProperty(cursor.getString(offset + 24)), // breed
+            cursor.isNull(offset + 25) ? null : piddataConverter.convertToEntityProperty(cursor.getString(offset + 25)), // piddata
+            cursor.isNull(offset + 26) ? null : cursor.getString(offset + 26) // pidcount
         );
         return entity;
     }
      
     @Override
     public void readEntity(Cursor cursor, BreedsList entity, int offset) {
-        entity.setId(cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0));
-        entity.setBreed_id(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
-        entity.setEartag_id(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
-        entity.setAddtime(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
-        entity.setType(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
-        entity.setPid(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
-        entity.setWeight(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
-        entity.setAge(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
-        entity.setType_in(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
-        entity.setSurvival(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
-        entity.setImg(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
-        entity.setUser_id(cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11));
-        entity.setQrcode(cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12));
-        entity.setLength(cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13));
-        entity.setUpdate_userid(cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14));
-        entity.setEdittime(cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15));
-        entity.setHah(cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16));
-        entity.setBreeds_id(cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17));
-        entity.setNumber(cursor.isNull(offset + 18) ? null : cursor.getString(offset + 18));
-        entity.setSretype(cursor.isNull(offset + 19) ? null : cursor.getString(offset + 19));
-        entity.setSretypein(cursor.isNull(offset + 20) ? null : cursor.getString(offset + 20));
-        entity.setUserbr_id(cursor.isNull(offset + 21) ? null : cursor.getString(offset + 21));
-        entity.setEartag(cursor.isNull(offset + 22) ? null : eartagConverter.convertToEntityProperty(cursor.getString(offset + 22)));
-        entity.setBreed(cursor.isNull(offset + 23) ? null : breedConverter.convertToEntityProperty(cursor.getString(offset + 23)));
-        entity.setPiddata(cursor.isNull(offset + 24) ? null : piddataConverter.convertToEntityProperty(cursor.getString(offset + 24)));
-        entity.setPidcount(cursor.isNull(offset + 25) ? null : cursor.getString(offset + 25));
+        entity.setStatus(cursor.getInt(offset + 0));
+        entity.setId(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
+        entity.setBreed_id(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
+        entity.setEartag_id(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setAddtime(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setType(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setPid(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
+        entity.setWeight(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
+        entity.setAge(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
+        entity.setType_in(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
+        entity.setSurvival(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
+        entity.setImg(cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11));
+        entity.setUser_id(cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12));
+        entity.setQrcode(cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13));
+        entity.setLength(cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14));
+        entity.setUpdate_userid(cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15));
+        entity.setEdittime(cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16));
+        entity.setHah(cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17));
+        entity.setBreeds_id(cursor.isNull(offset + 18) ? null : cursor.getString(offset + 18));
+        entity.setNumber(cursor.isNull(offset + 19) ? null : cursor.getString(offset + 19));
+        entity.setSretype(cursor.isNull(offset + 20) ? null : cursor.getString(offset + 20));
+        entity.setSretypein(cursor.isNull(offset + 21) ? null : cursor.getString(offset + 21));
+        entity.setUserbr_id(cursor.isNull(offset + 22) ? null : cursor.getString(offset + 22));
+        entity.setEartag(cursor.isNull(offset + 23) ? null : eartagConverter.convertToEntityProperty(cursor.getString(offset + 23)));
+        entity.setBreed(cursor.isNull(offset + 24) ? null : breedConverter.convertToEntityProperty(cursor.getString(offset + 24)));
+        entity.setPiddata(cursor.isNull(offset + 25) ? null : piddataConverter.convertToEntityProperty(cursor.getString(offset + 25)));
+        entity.setPidcount(cursor.isNull(offset + 26) ? null : cursor.getString(offset + 26));
      }
     
     @Override
-    protected final Void updateKeyAfterInsert(BreedsList entity, long rowId) {
-        // Unsupported or missing PK type
-        return null;
+    protected final String updateKeyAfterInsert(BreedsList entity, long rowId) {
+        return entity.getId();
     }
     
     @Override
-    public Void getKey(BreedsList entity) {
-        return null;
+    public String getKey(BreedsList entity) {
+        if(entity != null) {
+            return entity.getId();
+        } else {
+            return null;
+        }
     }
 
     @Override
     public boolean hasKey(BreedsList entity) {
-        // TODO
-        return false;
+        return entity.getId() != null;
     }
 
     @Override

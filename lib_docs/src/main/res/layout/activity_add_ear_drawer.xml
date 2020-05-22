@@ -97,6 +97,11 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:orientation="horizontal">
+            <LinearLayout
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:layout_width="0px"
+                android:layout_height="0px"/>
             <EditText
                 android:id="@+id/add_ear_tag_search"
                 android:layout_width="match_parent"
@@ -211,17 +216,11 @@
         <Space
             android:layout_weight="1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="50dp"/>
         <Spinner
             android:id="@+id/breed_sex"
-            android:layout_width="50dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
-        <TextView
-            android:gravity="center"
-            android:textSize="18dp"
-            android:textColor="@color/colorTextGrey"
-            android:layout_width="20dp"
-            android:layout_height="40dp"/>
     </LinearLayout>
     <include
         layout="@layout/bttn_save"
@@ -231,7 +230,7 @@
 </LinearLayout>
     <!--侧滑布局-->
     <LinearLayout
-        android:layout_width="380dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="start">
         <include

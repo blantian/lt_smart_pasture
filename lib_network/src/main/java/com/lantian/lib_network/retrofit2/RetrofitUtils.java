@@ -1,10 +1,12 @@
 package com.lantian.lib_network.retrofit2;
 
-import com.lantian.lib_base.utils.Utils;
+import com.lantian.lib_base.utils.BaseUtils;
 import com.lantian.lib_network.common.Constants;
+import com.lantian.lib_network.interceptor.AddCookiesInterceptor;
 import com.lantian.lib_network.interceptor.HttpCacheInterceptor;
 import com.lantian.lib_network.interceptor.HttpHeaderInterceptor;
 import com.lantian.lib_network.interceptor.LoggingInterceptor;
+import com.lantian.lib_network.interceptor.SaveCookiesInterceptor;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;
@@ -19,8 +21,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by Sherlock·Holmes on 2020-03-06
  */
 public class RetrofitUtils {
+
+
     public static OkHttpClient.Builder getOkHttpClientBuilder() {
-       File cacheFile = new File(Utils.getContext().getCacheDir(), "cache");
+       File cacheFile = new File(BaseUtils.getContext().getExternalCacheDir(), "response");
         //100Mb
         Cache cache = new Cache(cacheFile, 1024 * 1024 * 100);
         return new OkHttpClient.Builder()
@@ -31,6 +35,8 @@ public class RetrofitUtils {
                 .retryOnConnectionFailure(true)
                 .addInterceptor(new HttpHeaderInterceptor())
                 .addInterceptor(new HttpCacheInterceptor())
+                .addInterceptor(new SaveCookiesInterceptor(BaseUtils.getContext()))
+                .addInterceptor(new AddCookiesInterceptor(BaseUtils.getContext()))
                 // https认证 如果要使用https且为自定义证书 可以去掉这两行注释，并自行配制证书。
                 // .sslSocketFactory(SslContextFactory.getSSLSocketFactoryForTwoWay())
                 // .hostnameVerifier(new SafeHostnameVerifier())

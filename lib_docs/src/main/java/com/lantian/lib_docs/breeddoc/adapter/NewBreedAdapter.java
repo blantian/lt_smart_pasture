@@ -14,23 +14,24 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.lantian.lib_base.MyApp;
 import com.lantian.lib_base.entity.module.response.breeds.BreedIndex;
-import com.lantian.lib_base.utils.Utils;
+import com.lantian.lib_base.utils.BaseUtils;
 import com.lantian.lib_docs.R;
 import com.lantian.lib_docs.breeddoc.BreedAllActivity;
 import com.lantian.lib_docs.breeddoc.dabiaoyonghu.DabiaoBreedDocActivity;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Sherlock·Holmes on 2020-03-31
  */
 public class NewBreedAdapter extends RecyclerView.Adapter<NewBreedAdapter.NewBreedHoder> {
 
-    private ArrayList<BreedIndex> breedIndices;
+    private List<BreedIndex> breedIndices;
+    private static final String DA_BIAO_USER = "5";
     private Context context;
     private Bundle mBundle;
 
-    public NewBreedAdapter(ArrayList<BreedIndex> breedIndices, Context context,Bundle bundle) {
+    public NewBreedAdapter(List<BreedIndex> breedIndices, Context context, Bundle bundle) {
         this.breedIndices = breedIndices;
         this.context = context;
         mBundle = bundle;
@@ -54,10 +55,10 @@ public class NewBreedAdapter extends RecyclerView.Adapter<NewBreedAdapter.NewBre
             @Override
             public void onClick(View v) {
                 mBundle.putSerializable("BreedIndex",breedIndex);
-                if (MyApp.isAdmin.equals("5")){
-                    DabiaoBreedDocActivity.instance(Utils.getContext(),DabiaoBreedDocActivity.class,mBundle);
+                if (MyApp.isAdmin.equals(DA_BIAO_USER)){
+                    DabiaoBreedDocActivity.instance(BaseUtils.getContext(),DabiaoBreedDocActivity.class,mBundle);
                 }else {
-                    BreedAllActivity.instance(Utils.getContext(),BreedAllActivity.class,mBundle);
+                    BreedAllActivity.instance(BaseUtils.getContext(),BreedAllActivity.class,mBundle);
                 }
 
             }
@@ -68,7 +69,6 @@ public class NewBreedAdapter extends RecyclerView.Adapter<NewBreedAdapter.NewBre
     public int getItemCount() {
         return breedIndices.size();
     }
-
 
     public class NewBreedHoder extends RecyclerView.ViewHolder {
 

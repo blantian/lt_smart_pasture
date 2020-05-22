@@ -48,7 +48,6 @@ public class DBDevice {
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
             //三个参数，一个 SQLiteDatabase 对象，一个旧的版本号和一个新的版本号
-
         }
 
         @Override
@@ -63,7 +62,7 @@ public class DBDevice {
 
     private Context m_contex;
 
-    private String db_name = "device";
+    private String db_name = "device.db";
     private String table_name = "device_list";
 
     static DBDevice g_dbDevice;
@@ -75,6 +74,10 @@ public class DBDevice {
         return g_dbDevice;
     }
 
+    /**
+     * 创建数据库
+     * @param ct
+     */
     private DBDevice(Context ct) {
         m_contex = ct;
         m_dbHelper = new DBHelper(ct, db_name, null, 1);
@@ -100,6 +103,11 @@ public class DBDevice {
         m_db.close();
     }
 
+    /**
+     * 数据库中插入数据
+     * @param deviceItem
+     * @return
+     */
     public boolean insertDevice(DevManageGuider.DeviceItem deviceItem) {
         SQLiteDatabase db = open();
         if (db == null || !deviceItem.m_struNetInfo.checkNetInfo()) {

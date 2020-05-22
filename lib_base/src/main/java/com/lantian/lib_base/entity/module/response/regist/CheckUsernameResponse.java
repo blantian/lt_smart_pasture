@@ -11,6 +11,7 @@ public class CheckUsernameResponse {
      * data : null
      */
 
+    private String username;
     private int code;
     private String message;
     private Object data;

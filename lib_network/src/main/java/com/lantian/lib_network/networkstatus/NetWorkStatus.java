@@ -17,7 +17,6 @@ import java.io.InputStreamReader;
  */
 public class NetWorkStatus {
 
-
     /**
      *判断网络综合评测
      * @param context

@@ -46,9 +46,14 @@ public class ImageLoaderManager {
        options
                .error(R.drawable.ic_action_erro)
                .fallback(R.drawable.ic_action_erro)
-               .diskCacheStrategy(DiskCacheStrategy.ALL)
+               .diskCacheStrategy(DiskCacheStrategy.DATA)
                .skipMemoryCache(false)
+               .override(60,60)
+               .centerCrop()
                .priority(Priority.NORMAL);
+
        return options;
    }
+
+
 }

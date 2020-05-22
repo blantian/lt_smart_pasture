@@ -19,9 +19,10 @@ import android.widget.ToggleButton;
 
 import com.lantian.lib_base.MyApp;
 import com.lantian.lib_base.database.greendao.LoginResponseDao;
-import com.lantian.lib_base.database.sharedpreferences.SharedPreferencesUtils;
+import com.lantian.lib_base.file.sharedpreferences.SharedPreferencesHelper;
+import com.lantian.lib_base.file.sharedpreferences.SharedPreferencesUtils;
 import com.lantian.lib_base.entity.module.response.login.LoginResponse;
-import com.lantian.lib_base.utils.Utils;
+import com.lantian.lib_base.utils.BaseUtils;
 import com.lantian.lib_commin_ui.base.BaseActivity;
 import com.lantian.lib_commin_ui.dialog.AlertDialogUtil;
 import com.lantian.lib_commin_ui.utils.SubmitControler;
@@ -29,6 +30,7 @@ import com.lantian.lib_network.common.BasicResponse;
 import com.lantian.lib_network.common.ErroCode;
 import com.lantian.lib_network.common.ResponseObserver;
 import com.lantian.lib_network.networkstatus.NetWorkStatus;
+import com.lantian.lib_network.retrofit2.MyCallBack;
 import com.lantian.lib_network.retrofit2.RetrofitHelper;
 import com.lantian.lib_network.utils.RxUtil;
 import com.lantian.lt_smart_pasture.R;
@@ -77,6 +79,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private static final int LAN = 5;
 
     private String[] buttnStr = {"确定","取消"};
+    private String HAS_ACTICATE = "2";
 
     private List<LoginResponse> localData =new ArrayList<>();
     private static final String TAG = "LoginActivity";
@@ -120,6 +123,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 NetWorkStatus();
                 sharedPreferencesUtils.setParam("username",userNameLogin.getText().toString());
                 sharedPreferencesUtils.setParam("password",userPassLogin.getText().toString());
+                SharedPreferencesHelper.put(LoginActivity.this,"user_name",userNameLogin.getText().toString());
+                SharedPreferencesHelper.put(LoginActivity.this,"password",userPassLogin.getText().toString());
                 break;
                 /**隐藏显示密码**/
             case R.id.togglebtton:
@@ -193,9 +198,26 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         if (response.getStatus() == ErroCode.SUCCESS) {
                             MyApp.Userid = response.getData().getUser_id();
                             sharedPreferencesUtils.setParam("user_id",response.getData().getUser_id());
+                            sharedPreferencesUtils.setParam("isAdmin",response.getData().getUserdata().getIs_admin());
                             MyApp.isAdmin = response.getData().getUserdata().getIs_admin();
-                            HomeActivity.instance(LoginActivity.this,HomeActivity.class,null);
                             loginResponseDao.insertOrReplace(response.getData());
+
+                            if (response.getData().getUserdata().getAppact_type().equals(HAS_ACTICATE)){
+                                HomeActivity.instance(LoginActivity.this,HomeActivity.class,null);
+                            }else {
+                                /**激活用户**/
+                                AlertDialogUtil.TwoChoiceDialog(LoginActivity.this, "激活用户", "您是否要激活用户？", buttnStr, new AlertDialogUtil.TwoChoiceHandle() {
+                                    @Override
+                                    public void onPositiveButtonHandle() {
+                                        activateUser();
+                                        HomeActivity.instance(LoginActivity.this,HomeActivity.class,null);
+                                    }
+                                    @Override
+                                    public void onNegativeButtonHandle() {
+                                        HomeActivity.instance(LoginActivity.this,HomeActivity.class,null);
+                                    }
+                                });
+                            }
 
                         }else {
                             showToast(response.getMessage());
@@ -204,6 +226,19 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 });
     }
 
+    /**
+     * 激活用户
+     */
+    private void activateUser() {
+        RetrofitHelper.getApiService().activateUser(MyApp.Userid).enqueue(new MyCallBack<String>() {
+            @Override
+            public void success(String s) {
+            }
+            @Override
+            public void failure(String msg) {
+            }
+        });
+    }
 
 
     /**
@@ -259,18 +294,24 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
        }
     }
 
+    /**
+     * 离线登录
+     */
     private void CheckUser() {
         account = userNameLogin.getText().toString();
         password = userPassLogin.getText().toString();
-        localData = loginResponseDao.queryBuilder().list();
-        for (int i=0;i<localData.size();i++){
-            if (localData.get(i).getUsername().equals(account)&&
-                    localData.get(i).getUserdata().getPassword().equals(Utils.getMD5(password))){
+        LoginResponse loginResponse = loginResponseDao.queryBuilder().where(LoginResponseDao.Properties.Username.eq(account)).unique();
+        if (loginResponse == null){
+            AlertDialogUtil.warningDialog(LoginActivity.this,"友情提示","请先有网络状态下登录，加载数据哦！");
+        }else {
+                if (loginResponse.getUsername().equals(account)&&
+                        loginResponse.getUserdata().getPassword().equals(BaseUtils.getMD5(password))){
                     HomeActivity.instance(LoginActivity.this,HomeActivity.class,null);
-             }else {
-                showToast("用户名或密码错误！");
-            }
+                }else {
+                    showToast("用户名或密码错误！");
+                }
         }
+
     }
     
     @Override

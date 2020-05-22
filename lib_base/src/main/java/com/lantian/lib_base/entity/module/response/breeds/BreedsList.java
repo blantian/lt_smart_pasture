@@ -6,14 +6,15 @@ import com.lantian.lib_base.database.greendao.PidDataConverter;
 
 import org.greenrobot.greendao.annotation.Convert;
 import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Index;
 import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.Index;
 
 /**
  * Created by Sherlock·Holmes on 2020/4/5
  */
-@Entity(indexes = {@Index(value = "id DESC,breed_id,weight DESC,type DESC,pidcount DESC",unique = true)})
-public class BreedsList {
+@Entity(indexes = {@Index(value = "id,weight DESC",unique = true)})
+public class BreedsList{
 
     /**
      * id : 207517
@@ -44,6 +45,9 @@ public class BreedsList {
      * pidcount : 0
      */
 
+
+    private int status;
+    @Id
     private String id;
     private String breed_id;
 
@@ -77,8 +81,9 @@ public class BreedsList {
     private String pidcount;
 
 
-    @Generated(hash = 1615396347)
-    public BreedsList(String id, String breed_id, String eartag_id, String addtime, String type, String pid, String weight, String age, String type_in, String survival, String img, String user_id, String qrcode, String length, String update_userid, String edittime, String hah, String breeds_id, String number, String sretype, String sretypein, String userbr_id, EartagBean eartag, BreedBean breed, PiddataBean piddata, String pidcount) {
+    @Generated(hash = 1586123338)
+    public BreedsList(int status, String id, String breed_id, String eartag_id, String addtime, String type, String pid, String weight, String age, String type_in, String survival, String img, String user_id, String qrcode, String length, String update_userid, String edittime, String hah, String breeds_id, String number, String sretype, String sretypein, String userbr_id, EartagBean eartag, BreedBean breed, PiddataBean piddata, String pidcount) {
+        this.status = status;
         this.id = id;
         this.breed_id = breed_id;
         this.eartag_id = eartag_id;
@@ -318,6 +323,14 @@ public class BreedsList {
 
     public void setPidcount(String pidcount) {
         this.pidcount = pidcount;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public static class EartagBean {

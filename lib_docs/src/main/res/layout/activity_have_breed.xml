@@ -14,6 +14,7 @@
         android:layout_height="45dp"
         android:orientation="horizontal">
         <ImageView
+            android:id="@+id/haveBreedBack"
             android:layout_weight="0"
             android:background="@drawable/ic_action_bbtn_back"
             android:layout_width="25dp"

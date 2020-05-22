@@ -2,6 +2,7 @@ package com.lantian.lib_docs.breeddoc.fragment;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,14 +17,21 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.lantian.lib_base.MyApp;
+import com.lantian.lib_base.database.greendao.BreedsDao;
+import com.lantian.lib_base.database.greendao.CountBreedTureDao;
+import com.lantian.lib_base.database.greendao.CountBreeddatasDao;
+import com.lantian.lib_base.database.greendao.InOutDao;
+import com.lantian.lib_base.file.sharedpreferences.SharedPreferencesUtils;
 import com.lantian.lib_base.entity.module.response.breeds.Breeds;
+import com.lantian.lib_base.entity.module.response.breeds.CountBreedTure;
 import com.lantian.lib_base.entity.module.response.breeds.CountBreeddatas;
 import com.lantian.lib_base.entity.module.response.breeds.InOut;
-import com.lantian.lib_base.utils.Utils;
+import com.lantian.lib_base.utils.BaseUtils;
 import com.lantian.lib_commin_ui.base.BaseFragmen;
 import com.lantian.lib_docs.R;
 import com.lantian.lib_network.retrofit2.MyCallBack;
 import com.lantian.lib_network.retrofit2.RetrofitHelper;
+import com.lantian.lib_network.utils.NetworkUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,18 +49,31 @@ public class HomeChartFragment extends BaseFragmen {
     private TextView mOutText;
     private TextView mInText;
     private PieChart mChart;
+    private InOutDao inOutDao;
+    private CountBreedTureDao countBreedTureDao;
+    private CountBreeddatasDao countBreeddatasDao;
+    private SharedPreferencesUtils sharedPreferencesUtils;
 
     private String startTime = "";
     private String endTime = "";
     private String userid ="";
     private int pageType;
     private PieDataSet dataSet;
+    private BreedsDao breedsDao;
 
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fr_breed_data_show, null);
+
+        inOutDao = ((MyApp) BaseUtils.getContext()).getDaoSession().getInOutDao();
+        countBreedTureDao = ((MyApp) BaseUtils.getContext()).getDaoSession().getCountBreedTureDao();
+        countBreeddatasDao = ((MyApp) BaseUtils.getContext()).getDaoSession().getCountBreeddatasDao();
+        breedsDao = ((MyApp)BaseUtils.getContext()).getDaoSession().getBreedsDao();
+
+        sharedPreferencesUtils = new SharedPreferencesUtils(getContext());
+
         mDateRange = view.findViewById(R.id.dateRange);
         mIncomeText =view.findViewById(R.id.incomeText);
         mExpenditureText = view.findViewById(R.id.expenditureText);
@@ -84,7 +105,7 @@ public class HomeChartFragment extends BaseFragmen {
         args.putInt("pageType", pageType);
         args.putString("startTime", startTime);
         args.putString("endTime", endTime);
-        args.getString("uerid",userid);
+        args.putString("userid",userid);
         HomeChartFragment fragment = new HomeChartFragment();
         fragment.setArguments(args);
         return fragment;
@@ -96,11 +117,60 @@ public class HomeChartFragment extends BaseFragmen {
             pageType = arguments.getInt("pageType");
             startTime = arguments.getString("startTime");
             endTime = arguments.getString("endTime");
-            userid = arguments.getString("uerid");
-            refreshViews();
-            initChart();
-            initCountsData();
+            /**判断用户种类**/
+            if (MyApp.isAdmin.equals("5")){
+                userid = MyApp.DaBiaoUserid;
+            }else {
+                userid = arguments.getString("userid");
+            }
+
+
+            /**网络状态**/
+            if (NetworkUtils.isConnected()){
+
+                refreshViews();
+                initChart();
+                initCountsData();
+                /**断网状态**/
+            }else {
+                setDataBaseData();
+                initChart();
+                refreshViews();
+            }
         }
+    }
+
+    /**
+     *  数据库数据
+     */
+    private void setDataBaseData() {
+        String db_userid = (String) sharedPreferencesUtils.getParam("user_id","");
+        String db_isAdmin = (String) sharedPreferencesUtils.getParam("isAdmin","");
+        String db_dabiaouserid = (String) sharedPreferencesUtils.getParam("db_userid","");
+        if (db_isAdmin.equals("5")){
+            userid =db_dabiaouserid;
+        }else {
+            userid = db_userid;
+        }
+        /**输入支出**/
+        InOut inOut = inOutDao.queryBuilder().where(InOutDao.Properties.Userid.eq(userid)).unique();
+        if (inOut !=null){
+            mIncomeText.setText(inOut.getIncome() + "元");
+            mExpenditureText.setText(inOut.getExpenditure() + "元");
+        }
+        /**养殖数量**/
+        CountBreeddatas countBreeddatas = countBreeddatasDao.queryBuilder().where(CountBreeddatasDao.Properties.Userid.eq(userid)).unique();
+        if (countBreeddatas !=null){
+            mInText.setText(countBreeddatas.getBreeddata2());
+            mOutText.setText(countBreeddatas.getBreeddata1());
+            mSlaughtText.setText(countBreeddatas.getBreeddata3());
+        }
+        /**交易数量**/
+        CountBreedTure countBreedTure = countBreedTureDao.queryBuilder().where(CountBreedTureDao.Properties.Userid.eq(userid)).unique();
+        if (countBreedTure !=null){
+            mBreedText.setText(countBreedTure.getBreedcont());
+        }
+
     }
 
 
@@ -114,43 +184,66 @@ public class HomeChartFragment extends BaseFragmen {
      * 初始化图表
      */
     private void fetchChartData() {
-        RetrofitHelper.getApiService().getBreedStatistics(userid,
-                pageType + "",
-                startTime,
-                endTime).enqueue(new MyCallBack<ArrayList<Breeds>>() {
-            @Override
-            public void success(ArrayList<Breeds> breeds) {
-                //判断组件睡否有数据，有则晴空数据，并添加
-                if (mChart != null){
-                    int entryCount = dataSet.getEntryCount();
-                    for (int i = 0;i<entryCount;i++){
-                        dataSet.removeFirst();
-                        dataSet.notifyDataSetChanged();
-                        mChart.notifyDataSetChanged();
-                    }
-                    for (Breeds br : breeds){
-                        int value = Integer.parseInt(br.getCount() == null ? "0" : br.getCount());
-                        if (value ==0){
-                            continue;
+            if (NetworkUtils.isConnected()){
+                if (userid != null){
+                RetrofitHelper.getApiService().getBreedStatistics(userid,
+                        pageType + "",
+                        startTime,
+                        endTime).enqueue(new MyCallBack<ArrayList<Breeds>>() {
+                    @Override
+                    public void success(ArrayList<Breeds> breeds) {
+                        List<Breeds> breedsList = new ArrayList<>();
+                        for (int i = 0;i<breeds.size();i++){
+                                breeds.get(i).setUserid(MyApp.Userid);
                         }
-                        dataSet.addEntry(new PieEntry(value, br.getName()));
+                        breedsDao.insertOrReplaceInTx(breeds);
+                        setDataInChart(breeds);
                     }
-                    if (dataSet.getEntryCount() == 0) {
-                       showToast("数据为空");
-                        dataSet.addEntry(new PieEntry(9999999, "空数据"));
-                    }
-                    dataSet.notifyDataSetChanged();
+                    @Override
+                    public void failure(String msg) {
 
-                    mChart.notifyDataSetChanged();
-                    mChart.invalidate();
+                    }
+                });
+            }
+                /**无网络模式**/
+        }else {
+                String db_userid = (String) sharedPreferencesUtils.getParam("user_id","");
+                Log.e("starttaime",startTime);
+                Log.e("endtime",endTime);
+               List<Breeds> breeds = breedsDao.queryBuilder().where(breedsDao.queryBuilder()
+                       .and(BreedsDao.Properties.Userid.eq(db_userid),BreedsDao.Properties.Addtime.ge(startTime),BreedsDao.Properties.Addtime.le(endTime))).list();
+               setDataInChart(breeds);
+            }
+    }
+
+    /**
+     * 给 Chart组件数据
+     * **/
+    private void setDataInChart(List<Breeds> breeds) {
+        /**判断组件睡是否有数据，有则晴空数据，并添加**/
+        if (mChart != null){
+            int entryCount = dataSet.getEntryCount();
+            for (int i = 0;i<entryCount;i++){
+                dataSet.removeFirst();
+                dataSet.notifyDataSetChanged();
+                mChart.notifyDataSetChanged();
+            }
+            for (Breeds br : breeds){
+                int value = Integer.parseInt(br.getCount() == null ? "0" : br.getCount());
+                if (value == 0){
+                    continue;
                 }
+                dataSet.addEntry(new PieEntry(value, br.getName()));
             }
-
-            @Override
-            public void failure(String msg) {
-
+            if (dataSet.getEntryCount() == 0) {
+                //showToast("数据为空");
+                dataSet.addEntry(new PieEntry(0, "没有数据"));
             }
-        });
+            dataSet.notifyDataSetChanged();
+
+            mChart.notifyDataSetChanged();
+            mChart.invalidate();
+        }
     }
 
     private void initChart() {
@@ -159,7 +252,7 @@ public class HomeChartFragment extends BaseFragmen {
 
         ArrayList<Integer> colors = new ArrayList<>();
 
-        int defaultColor = Utils.getContext()
+        int defaultColor = BaseUtils.getContext()
                 .getResources()
                 .getColor(com.lantian.lib_commin_ui.R.color.afterSelector);
 
@@ -181,7 +274,7 @@ public class HomeChartFragment extends BaseFragmen {
         //设置间距
         dataSet.setSliceSpace(0);
         //设置显示数据的大小
-        dataSet.setValueTextSize(16);
+        dataSet.setValueTextSize(18);
         dataSet.setValueLineVariableLength(true);
         dataSet.setValueTextColors(colors);
         //线的颜色
@@ -212,45 +305,86 @@ public class HomeChartFragment extends BaseFragmen {
         //关闭中空洞
         mChart.setDrawHoleEnabled(false);
         //设置动画
-        mChart.animateXY(1000, 1000);
+        mChart.animateXY(500, 500);
         mChart.setData(new PieData(dataSet));
         mChart.invalidate();
     }
 
+    /**
+     * 收入、支出
+     */
     private void initCountsData() {
-        RetrofitHelper.getApiService().countInOut(MyApp.Userid, null,
-                null, null, null).enqueue(new MyCallBack<InOut>() {
-            @Override
-            public void success(InOut inOut) {
-                if (mIncomeText != null && mExpenditureText != null){
-                    mIncomeText.setText(inOut.getIncome() + "元");
-                    mExpenditureText.setText(inOut.getExpenditure() + "元");
+        if (userid !=null){
+            RetrofitHelper.getApiService().countInOut(userid, null,
+                    null, null, null).enqueue(new MyCallBack<InOut>() {
+                @Override
+                public void success(InOut inOut) {
+                    if (inOut !=null){
+                        if (mIncomeText != null && mExpenditureText != null){
+                            mIncomeText.setText(inOut.getIncome() + "元");
+                            mExpenditureText.setText(inOut.getExpenditure() + "元");
+                            /**插入数据库**/
+                            if (userid!=null){
+                                inOut.setUserid(userid);
+                                inOutDao.insertOrReplace(inOut);
+                            }
+                        }
+                    }
                 }
-            }
 
-            @Override
-            public void failure(String msg) {
-                showToast("获取收入支出数据失败！");
-            }
-        });
-        RetrofitHelper.getApiService().getBreedDatas(MyApp.Userid)
-                .enqueue(new MyCallBack<CountBreeddatas>() {
-            @Override
-            public void success(CountBreeddatas countBreeddatas) {
-                if (mInText != null && mOutText !=null && mSlaughtText != null){
-                    mInText.setText(countBreeddatas.getBreeddata2());
-                    mOutText.setText(countBreeddatas.getBreeddata1());
-                    mSlaughtText.setText(countBreeddatas.getBreeddata3());
+                @Override
+                public void failure(String msg) {
+                    showToast("获取收入支出数据失败！");
                 }
-            }
+            });
 
-            @Override
-            public void failure(String msg) {
-                showToast("获取交易数量失败！");
-            }
-        });
+            /**
+             * 屠宰数量、出栏数量、未出栏数量
+             *
+             */
+            RetrofitHelper.getApiService().getBreedDatas(userid)
+                    .enqueue(new MyCallBack<CountBreeddatas>() {
+                        @Override
+                        public void success(CountBreeddatas countBreeddatas) {
+                            if (countBreeddatas != null){
+                                if (mInText != null && mOutText !=null && mSlaughtText != null){
+                                    mInText.setText(countBreeddatas.getBreeddata2());
+                                    mOutText.setText(countBreeddatas.getBreeddata1());
+                                    mSlaughtText.setText(countBreeddatas.getBreeddata3());
+                                    if (userid !=null){
+                                        countBreeddatas.setUserid(userid);
+                                        /**插入数据库**/
+                                        countBreeddatasDao.insertOrReplace(countBreeddatas);
+                                    }
+                                }
+                            }
+                        }
 
+                        @Override
+                        public void failure(String msg) {
+                            showToast("获取交易数量失败！");
+                        }
+                    });
 
+            RetrofitHelper.getApiService().getCountBreedture(userid).enqueue(new MyCallBack<CountBreedTure>() {
+                @Override
+                public void success(CountBreedTure countBreedTure) {
+                    if (countBreedTure != null){
+                        if (userid != null){
+                            countBreedTure.setUserid(userid);
+                            countBreedTureDao.insertOrReplace(countBreedTure);
+                        }
+                        mBreedText.setText(countBreedTure.getBreedcont());
+                    }
+
+                }
+
+                @Override
+                public void failure(String msg) {
+
+                }
+            });
+        }
     }
 
     /**

@@ -169,38 +169,291 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_marginTop="30dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginEnd="40dp"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/allbasemsg"
-            android:gravity="center"
-            android:text="基础信息"
-            android:textStyle="bold"
-            android:textColor="@color/afterSelector"
-            android:background="@drawable/bg07"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <Space
-            android:layout_weight="1"
+        android:layout_height="match_parent">
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:id="@+id/alldocmsg"
-            android:gravity="center"
-            android:text="档案信息"
-            android:textStyle="bold"
-            android:textColor="@color/afterSelector"
-            android:background="@drawable/bg07"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="40dp"
+                android:orientation="horizontal">
 
+                <TextView
+                    android:id="@+id/allbasemsg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg07"
+                    android:gravity="center"
+                    android:text="基础信息"
+                    android:textColor="@color/afterSelector"
+                    android:textStyle="bold" />
 
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
 
+                <TextView
+                    android:id="@+id/alldocmsg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg07"
+                    android:gravity="center"
+                    android:text="档案信息"
+                    android:textColor="@color/afterSelector"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="40dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/allmedicenmsg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg07"
+                    android:gravity="center"
+                    android:text="药浴信息"
+                    android:textColor="@color/afterSelector"
+                    android:textStyle="bold" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/allfangyimsg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg07"
+                    android:gravity="center"
+                    android:text="防疫信息"
+                    android:textColor="@color/afterSelector"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="40dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/siweimsg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg07"
+                    android:gravity="center"
+                    android:text="饲喂信息"
+                    android:textColor="@color/afterSelector"
+                    android:textStyle="bold" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/yinshuimsg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg07"
+                    android:gravity="center"
+                    android:text="饮水信息"
+                    android:textColor="@color/afterSelector"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="40dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/fangmumsg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg07"
+                    android:gravity="center"
+                    android:text="放牧信息"
+                    android:textColor="@color/afterSelector"
+                    android:textStyle="bold" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/fanzhimsg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg07"
+                    android:gravity="center"
+                    android:text="繁殖信息"
+                    android:textColor="@color/afterSelector"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="40dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/rongchanmsg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg07"
+                    android:gravity="center"
+                    android:text="绒产量"
+                    android:textColor="@color/afterSelector"
+                    android:textStyle="bold" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/jiaoyimsg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg07"
+                    android:gravity="center"
+                    android:text="交易信息"
+                    android:textColor="@color/afterSelector"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="40dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tuzaimsg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg07"
+                    android:gravity="center"
+                    android:text="屠宰信息"
+                    android:textColor="@color/afterSelector"
+                    android:textStyle="bold" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/chulanmsg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg07"
+                    android:gravity="center"
+                    android:text="准备出栏"
+                    android:textColor="@color/afterSelector"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="40dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/yichangmsg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg07"
+                    android:gravity="center"
+                    android:text="异常"
+                    android:textColor="@color/afterSelector"
+                    android:textStyle="bold" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/peizhongmsg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg07"
+                    android:gravity="center"
+                    android:text="配种"
+                    android:textColor="@color/afterSelector"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="40dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/chanroumsg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg07"
+                    android:gravity="center"
+                    android:text="产肉性能"
+                    android:textColor="@color/afterSelector"
+                    android:textStyle="bold" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/chengzhangmsg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg07"
+                    android:gravity="center"
+                    android:text="成长信息"
+                    android:textColor="@color/afterSelector"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <include
+                layout="@layout/incloud_bg"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"/>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 </LinearLayout>

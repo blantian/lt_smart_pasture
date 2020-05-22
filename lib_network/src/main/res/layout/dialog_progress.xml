@@ -10,10 +10,14 @@
         android:layout_height="wrap_content"
         android:background="@drawable/progress_round"
         android:layout_gravity="center"/>
+
     <TextView
         android:id="@+id/tv_loadingmsg"
+        android:textColor="@color/colorwhite"
+        android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:textSize="20dp"/>
+        android:layout_marginTop="15dp"
+        android:textSize="25dp" />
 </LinearLayout>

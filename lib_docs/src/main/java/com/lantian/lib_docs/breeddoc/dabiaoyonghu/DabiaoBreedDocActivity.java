@@ -6,7 +6,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.lantian.lib_base.entity.module.response.breeds.BreedIndex;
-import com.lantian.lib_base.utils.Utils;
+import com.lantian.lib_base.utils.BaseUtils;
 import com.lantian.lib_commin_ui.base.BaseActivity;
 import com.lantian.lib_docs.R;
 
@@ -15,7 +15,7 @@ import java.io.Serializable;
 /**
  * Created by Sherlock·Holmes on 2020-04-01
  */
-public class DabiaoBreedDocActivity extends BaseActivity implements View.OnClickListener {
+public class DabiaoBreedDocActivity extends BaseActivity implements View.OnClickListener{
 
 
     private ImageView mDabiaoBtnBack;
@@ -64,7 +64,6 @@ public class DabiaoBreedDocActivity extends BaseActivity implements View.OnClick
             mDabiaoBreedTitel.setText(breedIndex.getTitle());
             mDabiaoBreedName.setText(breedName);
         }
-
     }
 
     @Override
@@ -72,7 +71,7 @@ public class DabiaoBreedDocActivity extends BaseActivity implements View.OnClick
         if (v.getId() == R.id.dabiao_btn_back) {
             DabiaoBreedDocActivity.this.finish();
         }else if (v.getId() == R.id.dabiao_breeds_doc_msg){
-            EarCodeActivity.instance(Utils.getContext(),EarCodeActivity.class,bundle);
+            EarCodeActivity.instance(BaseUtils.getContext(),EarCodeActivity.class,bundle);
         }
     }
 }

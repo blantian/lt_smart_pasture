@@ -8,8 +8,8 @@ import com.bumptech.glide.request.FutureTarget;
 import com.lantian.lib_base.MyApp;
 import com.lantian.lib_base.database.greendao.ProductResponseDao;
 import com.lantian.lib_base.entity.module.response.product.ProductResponse;
-import com.lantian.lib_base.utils.ExternalStorageUtils;
-import com.lantian.lib_base.utils.Utils;
+import com.lantian.lib_base.file.ExternalStorageUtils;
+import com.lantian.lib_base.utils.BaseUtils;
 import com.lantian.lib_image_loader.loadpic.ImageLoaderManager;
 
 import java.io.File;
@@ -21,7 +21,7 @@ import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-import static com.lantian.lib_base.utils.ExternalStorageUtils.readStream;
+import static com.lantian.lib_base.file.ExternalStorageUtils.readStream;
 
 /**
  * Created by Sherlock·Holmes on 2020-03-24
@@ -30,6 +30,7 @@ public class DownloadPic {
 
     private ProductResponseDao productResponseDao;
     private static DownloadPic instance;
+    private String path;
     public static DownloadPic getInstance(){
         if (instance == null){
             synchronized (ImageLoaderManager.class){
@@ -54,11 +55,12 @@ public class DownloadPic {
             SaveImage(uri,i,mproductResponses);
 
             }
+
     }
 
     public void SaveImage(final String uri, final int a, final ArrayList<ProductResponse> data){
-        final Context context = Utils.getContext();
-        productResponseDao = ((MyApp)Utils.getContext()).getDaoSession().getProductResponseDao();
+        final Context context = BaseUtils.getContext();
+        productResponseDao = ((MyApp) BaseUtils.getContext()).getDaoSession().getProductResponseDao();
       Observable.create(new ObservableOnSubscribe<String>() {
             @Override
             public void subscribe(ObservableEmitter<String> e) throws Exception {
@@ -68,11 +70,12 @@ public class DownloadPic {
                         .submit();
                 try {
                     File file = futureTarget.get();
-                    ExternalStorageUtils.writeExternalStoragePrivate(
-                            MyApp.Userid,context,
+                   boolean succ = ExternalStorageUtils.writeExternalStoragePrivate(
+                           MyApp.Userid,context,
                              a + ".png", readStream(file.getPath()));
-                    String path = Utils.getFilePath(context, MyApp.Userid + File.separator + a +".png");
-
+                    if (succ){
+                        path = BaseUtils.getFilePath(context, MyApp.Userid + File.separator+ a + ".png");
+                    }
                     e.onNext(path);
                 } catch (Exception ex) {
                     e.onNext(null);

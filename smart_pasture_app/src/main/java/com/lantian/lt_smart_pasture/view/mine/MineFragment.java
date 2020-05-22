@@ -12,9 +12,22 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.lantian.lib_base.MyApp;
+import com.lantian.lib_base.database.greendao.ImgsDao;
+import com.lantian.lib_base.entity.module.response.img.Imgs;
+import com.lantian.lib_base.file.DelFile;
+import com.lantian.lib_base.file.ExternalStorageUtils;
+import com.lantian.lib_base.file.sharedpreferences.SharedPreferencesHelper;
+import com.lantian.lib_base.file.sharedpreferences.SharedPreferencesUtils;
+import com.lantian.lib_base.thread.ThreadPoolManager;
+import com.lantian.lib_base.utils.BaseUtils;
 import com.lantian.lib_commin_ui.base.ActivityManagerUtil;
 import com.lantian.lib_commin_ui.dialog.AlertDialogUtil;
+import com.lantian.lib_image_loader.loadpic.GlideCacheUtil;
 import com.lantian.lt_smart_pasture.R;
+
+import java.io.File;
+import java.util.List;
 
 /**
  * Created by Sherlock·Holmes on 2020-02-24
@@ -31,7 +44,9 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     private TextView mBttnMyMsg;
     private TextView mBttnAboutUs;
     private Button mBttnQuit;
+    private ImgsDao imgsDao;
     private String[] buttnStr = {"确定","取消"};
+    private SharedPreferencesUtils sharedPreferencesUtils;
 
     public static Fragment newInstance() {
         MineFragment fragment = new MineFragment();
@@ -47,6 +62,8 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initView(View rootView) {
+        sharedPreferencesUtils = new SharedPreferencesUtils(getContext());
+        imgsDao = ((MyApp) BaseUtils.getContext()).getDaoSession().getImgsDao();
         mBttnFind = rootView.findViewById(R.id.bttn_find);
         mBttnMyMsg = rootView.findViewById(R.id.bttn_my_msg);
         mBttnAboutUs = rootView.findViewById(R.id.bttn_about_us);
@@ -60,10 +77,14 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.bttn_quit){
-            AlertDialogUtil.TwoChoiceDialog(getContext(), "退出程序", "您是否退出程序？",
+            AlertDialogUtil.TwoChoiceDialog(getActivity(), "退出程序", "您是否退出程序？",
                     buttnStr, new AlertDialogUtil.TwoChoiceHandle() {
                         @Override
                         public void onPositiveButtonHandle() {
+                            /**清除图片缓存**/
+                            GlideCacheUtil.getInstance().cleanCatchDisk(getContext());
+                            SharedPreferencesHelper.clear(getContext());
+                            delimg();
                             ActivityManagerUtil.getAppManager().AppExit(getContext());
                         }
                         @Override
@@ -78,5 +99,21 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         }else if (v.getId() == R.id.bttn_my_msg){
             personalActivity.instance(getContext(),personalActivity.class,null);
         }
+    }
+
+
+    private void delimg() {
+        String userid = (String) sharedPreferencesUtils.getParam("db_userid","");
+        List<Imgs> imgs = imgsDao.queryBuilder().where(imgsDao.queryBuilder().and(ImgsDao.Properties.User_id.eq(userid),
+                ImgsDao.Properties.Stutas.eq(DelFile.CAMERO_FILE.ordinal()))).list();
+        ThreadPoolManager.getInstance().execute(new Runnable() {
+            @Override
+            public void run() {
+               // for (int i = 0;i<imgs.size();i++){
+                    File file = new File("/storage/emulated/0/Android/data/com.lantian.lt_smart_pasture/files/Pictures/cropTemp/");
+                    ExternalStorageUtils.deleteAllFile(file);
+               // }
+            }
+        });
     }
 }

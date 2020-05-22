@@ -8,7 +8,7 @@ import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
-import com.lantian.lib_base.utils.Utils;
+import com.lantian.lib_base.utils.BaseUtils;
 import com.lantian.lib_commin_ui.R;
 
 import java.util.ArrayList;
@@ -37,7 +37,7 @@ public class MyChart {
 
         ArrayList<Integer> colors = new ArrayList<>();
 
-        int defaultColor = Utils.getContext()
+        int defaultColor = BaseUtils.getContext()
                 .getResources()
                 .getColor(R.color.afterSelector);
 

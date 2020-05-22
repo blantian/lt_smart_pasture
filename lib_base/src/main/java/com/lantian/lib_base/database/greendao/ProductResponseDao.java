@@ -15,7 +15,7 @@ import com.lantian.lib_base.entity.module.response.product.ProductResponse;
 /** 
  * DAO for table "PRODUCT_RESPONSE".
 */
-public class ProductResponseDao extends AbstractDao<ProductResponse, Void> {
+public class ProductResponseDao extends AbstractDao<ProductResponse, String> {
 
     public static final String TABLENAME = "PRODUCT_RESPONSE";
 
@@ -24,7 +24,7 @@ public class ProductResponseDao extends AbstractDao<ProductResponse, Void> {
      * Can be used for QueryBuilder and for referencing column names.
      */
     public static class Properties {
-        public final static Property Product_id = new Property(0, String.class, "product_id", false, "PRODUCT_ID");
+        public final static Property Product_id = new Property(0, String.class, "product_id", true, "PRODUCT_ID");
         public final static Property User_id = new Property(1, String.class, "user_id", false, "USER_ID");
         public final static Property Iot_product_id = new Property(2, String.class, "iot_product_id", false, "IOT_PRODUCT_ID");
         public final static Property Product_name = new Property(3, String.class, "product_name", false, "PRODUCT_NAME");
@@ -55,7 +55,7 @@ public class ProductResponseDao extends AbstractDao<ProductResponse, Void> {
     public static void createTable(Database db, boolean ifNotExists) {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"PRODUCT_RESPONSE\" (" + //
-                "\"PRODUCT_ID\" TEXT," + // 0: product_id
+                "\"PRODUCT_ID\" TEXT PRIMARY KEY NOT NULL ," + // 0: product_id
                 "\"USER_ID\" TEXT," + // 1: user_id
                 "\"IOT_PRODUCT_ID\" TEXT," + // 2: iot_product_id
                 "\"PRODUCT_NAME\" TEXT," + // 3: product_name
@@ -71,9 +71,6 @@ public class ProductResponseDao extends AbstractDao<ProductResponse, Void> {
                 "\"CREATED_AT\" TEXT," + // 13: created_at
                 "\"UPDATED_AT\" TEXT," + // 14: updated_at
                 "\"PRODUCT_ICON\" INTEGER NOT NULL );"); // 15: product_icon
-        // Add Indexes
-        db.execSQL("CREATE UNIQUE INDEX " + constraint + "IDX_PRODUCT_RESPONSE_PRODUCT_ID_USER_ID ON \"PRODUCT_RESPONSE\"" +
-                " (\"PRODUCT_ID\" ASC,\"USER_ID\" ASC);");
     }
 
     /** Drops the underlying database table. */
@@ -245,8 +242,8 @@ public class ProductResponseDao extends AbstractDao<ProductResponse, Void> {
     }
 
     @Override
-    public Void readKey(Cursor cursor, int offset) {
-        return null;
+    public String readKey(Cursor cursor, int offset) {
+        return cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0);
     }    
 
     @Override
@@ -293,20 +290,22 @@ public class ProductResponseDao extends AbstractDao<ProductResponse, Void> {
      }
     
     @Override
-    protected final Void updateKeyAfterInsert(ProductResponse entity, long rowId) {
-        // Unsupported or missing PK type
-        return null;
+    protected final String updateKeyAfterInsert(ProductResponse entity, long rowId) {
+        return entity.getProduct_id();
     }
     
     @Override
-    public Void getKey(ProductResponse entity) {
-        return null;
+    public String getKey(ProductResponse entity) {
+        if(entity != null) {
+            return entity.getProduct_id();
+        } else {
+            return null;
+        }
     }
 
     @Override
     public boolean hasKey(ProductResponse entity) {
-        // TODO
-        return false;
+        return entity.getProduct_id() != null;
     }
 
     @Override

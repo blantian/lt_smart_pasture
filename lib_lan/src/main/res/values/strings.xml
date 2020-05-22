@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">lib_LAN</string>
+    <string name="title_dev">设备</string>
+    <string name="title_mine">我</string>
+    <string name="dev_add">添加</string>
+    <string name="start">开始</string>
+    <string name="take_picture">拍照</string>
+    <string name="stop">暂停</string>
+    <string name="dev_channel">管道</string>
+    <string name="dev_stream">输入</string>
+    <string name="LANCamera">摄像头</string>
 </resources>

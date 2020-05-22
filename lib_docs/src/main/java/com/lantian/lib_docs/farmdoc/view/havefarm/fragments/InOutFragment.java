@@ -10,11 +10,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.lantian.lib_base.MyApp;
+import com.lantian.lib_base.database.greendao.FarmInComeDao;
+import com.lantian.lib_base.file.sharedpreferences.SharedPreferencesUtils;
 import com.lantian.lib_base.entity.module.response.farmer.farmdatas.FarmInCome;
+import com.lantian.lib_base.utils.BaseUtils;
 import com.lantian.lib_commin_ui.base.BaseFragmen;
 import com.lantian.lib_docs.R;
 import com.lantian.lib_network.retrofit2.MyCallBack;
 import com.lantian.lib_network.retrofit2.RetrofitHelper;
+import com.lantian.lib_network.utils.NetworkUtils;
 
 /**
  * Created by Sherlock·Holmes on 2020-04-02
@@ -30,6 +34,8 @@ public class InOutFragment extends BaseFragmen {
     private String startTime = "";
     private String endTime = "";
     private int pageType;
+    private FarmInComeDao inOutDao;
+    private SharedPreferencesUtils sharedPreferencesUtils;
 
 
     /**
@@ -65,6 +71,8 @@ public class InOutFragment extends BaseFragmen {
          * @param view
          */
         private void initView(View view) {
+            sharedPreferencesUtils = new SharedPreferencesUtils(getContext());
+            inOutDao = ((MyApp) BaseUtils.getContext()).getDaoSession().getFarmInComeDao();
             mFarmDatas = view.findViewById(R.id.farm_datas);
             fTitel = view.findViewById(R.id.titel_income);
             fInfo = view.findViewById(R.id.income_sum);
@@ -89,7 +97,40 @@ public class InOutFragment extends BaseFragmen {
     }
 
     private void initCountsData() {
-        RetrofitHelper.getApiService().getFarmIncome(MyApp.Userid,String.valueOf(pageType),startTime,endTime).enqueue(new MyCallBack<FarmInCome>() {
+            if (NetworkUtils.isConnected()){
+                RetrofitHelper.getApiService().getFarmIncome(MyApp.Userid,String.valueOf(pageType),startTime,endTime).enqueue(new MyCallBack<FarmInCome>() {
+                    @Override
+                    public void success(FarmInCome farmInCome) {
+                        farmInCome.setUserid(MyApp.Userid);
+                        farmInCome.setStatus(pageType);
+                        inOutDao.insertOrReplace(farmInCome);
+                        setDataToTextView(farmInCome);
+                    }
+                    @Override
+                    public void failure(String msg) {
+                    }
+                });
+                /**无网络**/
+            }else {
+                String userid =(String)sharedPreferencesUtils.getParam("user_id","");
+                FarmInCome farmInCome =inOutDao.queryBuilder().where(FarmInComeDao.Properties.Userid.eq(userid)).unique();
+                setDataToTextView(farmInCome);
+            }
+
+    }
+    /**
+     * 渲染总收入支出页面
+     * @param farmInCome
+     */
+    private void setDataToTextView(FarmInCome farmInCome) {
+        flatData("总收入",farmInCome.getIncome(),"总支出",farmInCome.getExpenditure());
+
+    }
+
+    private void refreshViews() {
+        //日期范围
+        mFarmDatas.setText(String.format("%s ~ %s", startTime, endTime));
+        RetrofitHelper.getApiService().getFarmIncome(MyApp.Userid,"6",startTime,endTime).enqueue(new MyCallBack<FarmInCome>() {
             @Override
             public void success(FarmInCome farmInCome) {
                 setDataToTextView(farmInCome);
@@ -99,18 +140,6 @@ public class InOutFragment extends BaseFragmen {
             public void failure(String msg) {
             }
         });
-    }
-    /**
-     * 渲染总收入支出页面
-     * @param farmInCome
-     */
-    private void setDataToTextView(FarmInCome farmInCome) {
-        flatData("总收入",farmInCome.getIncome(),"总支出",farmInCome.getExpenditure());
-    }
-
-    private void refreshViews() {
-        //日期范围
-        mFarmDatas.setText(String.format("%s ~ %s", startTime, endTime));
     }
 
     /**
@@ -131,18 +160,16 @@ public class InOutFragment extends BaseFragmen {
             fInfo.setVisibility(View.VISIBLE);
             fInfo.setText(info_1);
         }
-
-        sTitel.setVisibility(View.INVISIBLE);
-        sInfo.setVisibility(View.INVISIBLE);
-
-        if (t_2 != null) {
+        if (t_2.equals("总支出")) {
             sTitel.setVisibility(View.VISIBLE);
             sTitel.setText(t_2);
+            sTitel.setText("总支出");
         }
         if (sInfo != null) {
             sInfo.setVisibility(View.VISIBLE);
             sInfo.setText(info_2);
         }
+
     }
 
     /**

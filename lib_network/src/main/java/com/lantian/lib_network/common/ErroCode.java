@@ -2,7 +2,7 @@ package com.lantian.lib_network.common;
 
 import androidx.annotation.StringRes;
 
-import com.lantian.lib_base.utils.Utils;
+import com.lantian.lib_base.utils.BaseUtils;
 import com.lantian.lib_network.R;
 
 /**
@@ -19,6 +19,8 @@ public class ErroCode {
      */
     public static final int ERRO_PASS_USNAME=402;
 
+    public static final int BREED_ID = 422;
+
     public static final  int TOKEN_EXPRIED = -1;
     public static final int REMOTE_LOGIN = 91011;
 
@@ -33,6 +35,6 @@ public class ErroCode {
         return message;
     }
     private static String getString(@StringRes int resId) {
-        return Utils.getContext().getString(resId);
+        return BaseUtils.getContext().getString(resId);
     }
 }
